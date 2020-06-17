@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "359278539840",
+    "firebase_url": "https://talkstage-65545.firebaseio.com",
+    "project_id": "talkstage-65545",
+    "storage_bucket": "talkstage-65545.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359278539840:android:def99cc42163c3b00e5ba5",
+        "android_client_info": {
+          "package_name": "com.example.talks1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359278539840-b7kporecd23c2best9s7ttsml5livo20.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2cvlaLfXxksf5Di8RU_rADa37GS5etGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359278539840-b7kporecd23c2best9s7ttsml5livo20.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
