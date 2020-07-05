@@ -171,9 +171,9 @@ public class RegisterActivity extends AppCompatActivity {
                             if(databaseError!=null) {
                                 Toast.makeText(RegisterActivity.this, databaseError.toString(),Toast.LENGTH_LONG).show();
                             }
-                            Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
+                            Toast.makeText(RegisterActivity.this, "Logged in Successfully: USER:" + fAuth.getCurrentUser().getEmail().trim(), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(),SplashLoginActivity.class));
+                            finish();
                         }
                     });
                 }
