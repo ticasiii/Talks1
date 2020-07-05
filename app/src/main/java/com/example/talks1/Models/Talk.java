@@ -9,17 +9,15 @@ public class Talk {
     private String title;
     private String category;
     private String speaker;
-    private int cover;
+    private String picture;
     private String description;
+    private String address;
     private int year;
     private int month;
     private int day;
     private int hour;
     private int minute;
 
-    private String picture;
-
-    private String address;
     private double lat;
     private double lng;
 
@@ -30,10 +28,9 @@ public class Talk {
     public Talk() {
     }
 
-    public Talk(String title, String speaker, int cover) {
+    public Talk(String title, String speaker, int picture) {
         this.title = title;
         this.speaker = speaker;
-        this.cover = cover;
     }
 
     public String getTitle() {
@@ -50,14 +47,6 @@ public class Talk {
 
     public void setSpeaker(String speaker) {
         this.speaker = speaker;
-    }
-
-    public int getCover() {
-        return cover;
-    }
-
-    public void setCover(int cover) {
-        this.cover = cover;
     }
 
     public void setDescription (String desc){
@@ -165,10 +154,16 @@ public class Talk {
 
     public String getCategory() {
         return category;
-
     }
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String composeDateString() {
+        String dateString = Integer.toString(year) + "-" + Integer.toString(month) + "-"
+                + Integer.toString(day) + " " + Integer.toString(hour) + ":"
+                + Integer.toString(minute);
+        return  dateString;
     }
 }

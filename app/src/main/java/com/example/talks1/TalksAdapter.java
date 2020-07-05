@@ -62,7 +62,7 @@ public class TalksAdapter extends RecyclerView.Adapter<TalksAdapter.MyViewHolder
         holder.speaker.setText(talk.getSpeaker());
 
         // loading album cover using Glide library
-        Glide.with(mContext).load(talk.getCover()).into(holder.cover);
+        Glide.with(mContext).load(talk.getPicture()).into(holder.cover);
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override

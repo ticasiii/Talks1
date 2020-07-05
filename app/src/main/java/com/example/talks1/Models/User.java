@@ -14,6 +14,7 @@ public class User {
     private String name;
     private String info;
     private String picture;
+    private boolean speaker;
 
 
     Map<String, Object> _favouriteSpeakers = new HashMap<>();
@@ -70,6 +71,14 @@ public class User {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public boolean isSpeaker() {
+        return this.speaker;
+    }
+
+    public void setSpeaker (boolean isSpeaker) {
+        this.speaker = isSpeaker;
     }
 
     public Map<String, Object> get_favouriteSpeakers() {

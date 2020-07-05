@@ -1,52 +1,50 @@
 package com.example.talks1.Models;
 
-public class Speaker {
+import java.util.HashMap;
+import java.util.Map;
 
+public class Speaker extends User {
 
-    private String Name;
-    private String Category ;
-    private String Description ;
-    private int Cover ;
+    public Speaker(String fullname, int picture){
 
-    public Speaker() {
-    }
-
-    public Speaker(String name, int cover) {
-        Name = name;
-        Cover = cover;
     }
 
 
-    public String getName() {
-        return Name;
+    private float currentRate;
+    private float ratingsCount;
+
+    private Map<String, Object> _pastSpeeches = new HashMap<>();
+    private Map<String, Object> _futureSpeeches = new HashMap<>();
+
+    public void rateSpeaker(float rate)
+    {
+        this.currentRate = (ratingsCount*this.currentRate +rate) / ++ratingsCount;
+    }
+    public float getCurrentRate() {
+        return this.currentRate;
+    }
+    public float getRatingsCount() {
+        return this.ratingsCount;
+    }
+    public void setCurrentRate(float rate,int ratingsCount) {
+        this.currentRate =rate;
+        this.ratingsCount = ratingsCount;
     }
 
-    public String getCategory() {
-        return Category;
+    public Map<String, Object> getPastSpeeches()
+    {
+        return _pastSpeeches;
     }
 
-    public String getDescription() {
-        return Description;
+    public void setPastSpeeches(Map<String, Object> pastSpeeches) {
+        this._pastSpeeches = pastSpeeches;
     }
 
-    public int getCover() {
-        return Cover;
+    public Map<String, Object> getFutureSpeeches() {
+        return _futureSpeeches;
     }
 
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public void setCategory(String category) {
-        Category = category;
-    }
-
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public void setCover(int cover) {
-        Cover = cover;
+    public void setFutureSpeeches(Map<String, Object> futureSpeeches) {
+        this._futureSpeeches = futureSpeeches;
     }
 }
