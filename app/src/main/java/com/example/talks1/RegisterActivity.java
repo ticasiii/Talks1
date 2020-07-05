@@ -76,6 +76,10 @@ public class RegisterActivity extends AppCompatActivity {
         mLoginBtn   = findViewById(R.id.createText);
         mUsername   = findViewById(R.id.username);
 
+        ivPicture =  findViewById(R.id.activity_signup_picture);
+        bPicture = findViewById(R.id.activity_signup_picture_button);
+
+
         fAuth = FirebaseAuth.getInstance();
         // fStore = FirebaseFirestore.getInstance();
         progressBar = findViewById(R.id.progressBar);
@@ -106,6 +110,16 @@ public class RegisterActivity extends AppCompatActivity {
                 OpenLogin();
             }
         });
+
+        bPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // startActivity(new Intent(getApplicationContext(),LogInActivity.class));
+                PickImage();
+            }
+        });
+
+
 
     }
 
@@ -152,13 +166,15 @@ public class RegisterActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Toast.makeText(RegisterActivity.this, "User Created.", Toast.LENGTH_SHORT).show();
 
-                    final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+                    final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users").child("users");
                     User user = new User();
                     user.setId(fAuth.getCurrentUser().getUid());
                     user.setName(mFullName.getText().toString());
                     user.setEmail(fAuth.getCurrentUser().getEmail().trim());
                     user.setInfo(mDescription.getText().toString().trim());
                     user.setUsername(mUsername.getText().toString().trim());
+
+                    user.setSpeaker(false);
 
                     if (ivPicture.getDrawable() != null) {
                         user.setPicture(fAuth.getCurrentUser().getUid());
