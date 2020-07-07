@@ -1,6 +1,7 @@
 package com.example.talks1.Models;
 
  import java.util.HashMap;
+ import java.util.List;
  import java.util.Map;
  import java.util.Objects;
 
@@ -15,6 +16,8 @@ public class User {
     private String info;
     private String picture;
     private boolean speaker;
+    private List<Talk> talkList;
+
 
 
     Map<String, Object> _favouriteSpeakers = new HashMap<>();
@@ -31,6 +34,15 @@ public class User {
 
     public User() {
 
+    }
+    public List<Talk> getTalkList(){return talkList;}
+
+    public void setTalkList(List<Talk> tl){
+        this.talkList = tl;
+    }
+
+    public void addToTalkList(Talk t){
+        this.talkList.add(t);
     }
 
     public String getUsername() {

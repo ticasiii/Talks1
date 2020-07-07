@@ -28,6 +28,11 @@ public class Talk {
     public Talk() {
     }
 
+    public Talk(String title, String speaker) {
+        this.title = title;
+        this.speaker = speaker;
+    }
+
     public Talk(String title, String speaker, int picture) {
         this.title = title;
         this.speaker = speaker;

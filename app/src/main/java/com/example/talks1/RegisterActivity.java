@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.talks1.Models.Talk;
 import com.example.talks1.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,7 +40,10 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -55,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     FirebaseAuth fAuth;
     ProgressBar progressBar;
+    List<Talk> talkList;
     //FirebaseFirestore fStore;
     // String userID;
 
@@ -155,8 +160,10 @@ public class RegisterActivity extends AppCompatActivity {
             mPassword.setError("Password Must have at least 6 Characters");
             return;
         }
+        talkList = new ArrayList<Talk>();
 
         progressBar.setVisibility(View.VISIBLE);
+
 
         // register the user in firebase
 
@@ -166,13 +173,21 @@ public class RegisterActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Toast.makeText(RegisterActivity.this, "User Created.", Toast.LENGTH_SHORT).show();
 
-                    final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users").child("users");
+                    final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
                     User user = new User();
                     user.setId(fAuth.getCurrentUser().getUid());
                     user.setName(mFullName.getText().toString());
                     user.setEmail(fAuth.getCurrentUser().getEmail().trim());
                     user.setInfo(mDescription.getText().toString().trim());
                     user.setUsername(mUsername.getText().toString().trim());
+                    Talk t1 = new Talk("Title1", mFullName.getText().toString());
+                    Talk t2 = new Talk("Title2", mFullName.getText().toString());
+                    Talk[] talks = {t1, t2};
+
+
+                    List talkList = new ArrayList<Talk>(Arrays.asList(talks));
+                    user.setTalkList(talkList);
+
 
                     user.setSpeaker(false);
 
