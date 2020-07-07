@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateTalkActivity"> <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/activity_create_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:ems="10"
+                    android:hint="Title"
+                    android:background="@color/viewBg"
+                    android:fontFamily="sans-serif-condensed"
+                    android:padding="10dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@color/colorPrimaryDark"
+                    android:textSize="16sp"
+                    android:inputType="textPersonName" />
+                <EditText
+                    android:id="@+id/activity_create_talk_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:ems="10"
+                    android:hint="Category"
+                    android:background="@color/viewBg"
+                    android:fontFamily="sans-serif-condensed"
+                    android:padding="10dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@color/colorPrimaryDark"
+                    android:textSize="16sp"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/activity_create_talk_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:ems="10"
+                    android:hint="Description"
+                    android:background="@color/viewBg"
+                    android:fontFamily="sans-serif-condensed"
+                    android:padding="10dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@color/colorPrimaryDark"
+                    android:textSize="16sp"
+                    android:inputType="textMultiLine" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                <TextView
+                android:id="@+id/activity_create_talk_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:ems="10"
+                android:hint="Choose time"
+                android:background="@color/viewBg"
+                android:fontFamily="sans-serif-condensed"
+                android:padding="10dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/activity_create_talk_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:ems="10"
+                    android:hint="Choose date"
+                    android:background="@color/viewBg"
+                    android:fontFamily="sans-serif-condensed"
+                    android:padding="10dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@color/colorPrimaryDark"
+                    android:textSize="16sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/activity_create_talk_picture"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/baseline_account_circle_24"
+                    />
+                <Button
+                    android:id="@+id/activity_create_lecture_picture_button"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Choose picture"
+                    android:background="@color/colorPrimaryDark"
+                    android:fontFamily="sans-serif-black" />
+                <Button
+                    android:id="@+id/activity_create_talk_location_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:text="Choose location"
+                    android:background="@color/colorPrimaryDark"
+                    android:fontFamily="sans-serif-black" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="2">
+        <Button
+            android:id="@+id/activity_create_talk_create_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Create talk"
+            android:background="@color/colorPrimaryDark"
+            android:fontFamily="sans-serif-black"
+            android:layout_margin="20dp"/>
+        <Button
+            android:id="@+id/activity_create_talk_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Cancel"
+            android:background="@color/colorPrimaryDark"
+            android:fontFamily="sans-serif-black"
+            android:layout_margin="20dp"/>
+
+    </LinearLayout>
+</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

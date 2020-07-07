@@ -152,8 +152,8 @@
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"

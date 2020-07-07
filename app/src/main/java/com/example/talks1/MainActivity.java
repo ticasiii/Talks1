@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             case R.id.action_map_item:
                 Toast.makeText(this, "You clicked map", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(),CreateTalkActivity.class));
                 break;
 
             case R.id.action_settings_item:
