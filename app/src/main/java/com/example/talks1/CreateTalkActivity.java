@@ -127,7 +127,7 @@ public class CreateTalkActivity extends AppCompatActivity {
                                 databaseReference.child("picture").setValue(talkID);
 
 
-                                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("eventImages").child(talkID);
+                                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("events").child(talkID);
                                 ivPicture.setDrawingCacheEnabled(true);
                                 ivPicture.buildDrawingCache();
                                 Bitmap bitmap = ivPicture.getDrawingCache();
@@ -145,7 +145,7 @@ public class CreateTalkActivity extends AppCompatActivity {
                                 });
 
 
-                                Intent intent = new Intent(CreateTalkActivity.this, TalkDetailsActivity.class);
+                                Intent intent = new Intent(CreateTalkActivity.this, MainActivity.class);
                                 intent.putExtra("talkID", talkID);
 
                                 Toast.makeText(CreateTalkActivity.this, "Event successfully created" + talkID, Toast.LENGTH_SHORT).show();
@@ -328,7 +328,7 @@ public class CreateTalkActivity extends AppCompatActivity {
     }
 
     private void UploadPicture(String eventId) {
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("eventImages").child(eventId);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("events").child(eventId);
         ivPicture.setDrawingCacheEnabled(true);
         ivPicture.buildDrawingCache();
         Bitmap bitmap = ivPicture.getDrawingCache();

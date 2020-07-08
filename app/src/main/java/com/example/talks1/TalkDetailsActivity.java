@@ -134,7 +134,9 @@ public class TalkDetailsActivity extends AppCompatActivity {
 
                         if (talkID != null) {
                             FirebaseStorage storage = FirebaseStorage.getInstance();
-                            StorageReference ref = storage.getReference().child("eventImages").child(selectedTalk.getPicture());
+
+                            //StorageReference ref = storage.getReference().child("eventImages").child(selectedTalk.getPicture());
+                            StorageReference ref = storage.getReference().child("events").child(selectedTalk.getPicture());
 
                             GlideApp.with(getApplicationContext()).load(ref).into(fTalkImage);
 

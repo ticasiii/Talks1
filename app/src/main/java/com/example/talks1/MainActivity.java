@@ -22,12 +22,16 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+    private String talkID;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        this.talkID = intent.getStringExtra("talkID");
 
 
         //getting the toolbar
@@ -60,7 +64,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch(item.getItemId()){
             case R.id.action_search_item:
                 Toast.makeText(this, "You clicked search", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(),MyListActivity.class));
+                Intent intent = new Intent(this, TalkDetailsActivity.class);
+                intent.putExtra("talkID", talkID);
+                startActivity(intent);
+
                 break;
 
             case R.id.action_map_item:
@@ -70,6 +77,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             case R.id.action_settings_item:
                 Toast.makeText(this, "You clicked settings", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(this, MyListActivity.class);
+                intent1.putExtra("talkID", talkID);
+                startActivity(intent1);
+
                 break;
 
             case R.id.action_about_item:

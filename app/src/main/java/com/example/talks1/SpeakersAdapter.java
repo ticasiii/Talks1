@@ -16,13 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.talks1.Models.Speaker;
+import com.example.talks1.Models.User;
 
 import java.util.List;
+import java.util.Map;
 
 public class SpeakersAdapter extends RecyclerView.Adapter<SpeakersAdapter.MyViewHolder> {
 
     private Fragment mContext;
-    private List<Speaker> speakers;
+    private List<User> speakers;
+    private Map<String, Object> speakersList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
@@ -37,7 +40,7 @@ public class SpeakersAdapter extends RecyclerView.Adapter<SpeakersAdapter.MyView
     }
 
 
-    public SpeakersAdapter(Fragment mContext, List<Speaker> speakers) {
+    public SpeakersAdapter(Fragment mContext, List<User> speakers) {
         this.mContext = mContext;
         this.speakers = speakers;
     }
@@ -52,7 +55,7 @@ public class SpeakersAdapter extends RecyclerView.Adapter<SpeakersAdapter.MyView
 
     @Override
     public void onBindViewHolder(final SpeakersAdapter.MyViewHolder holder, int position) {
-        Speaker speaker = speakers.get(position);
+        User speaker = speakers.get(position);
         holder.name.setText(speaker.getName());
 
         // loading album cover using Glide library

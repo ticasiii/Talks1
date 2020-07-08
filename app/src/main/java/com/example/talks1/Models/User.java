@@ -16,15 +16,18 @@ public class User {
     private String info;
     private String picture;
     private boolean speaker;
+    //private Map<String, Object> talkList = new HashMap<>();
     private List<Talk> talkList;
 
 
 
-    Map<String, Object> _favouriteSpeakers = new HashMap<>();
-    Map<String, Object> _favouriteTalks = new HashMap<>();
-    Map<String, Object> _playNextTalks = new HashMap<>();
 
-    Map<String, Object> _friendUsers = new HashMap<>();
+
+    private Map<String, Object> _favouriteSpeakers = new HashMap<>();
+    private Map<String, Object> _favouriteTalks = new HashMap<>();
+    private Map<String, Object> _playNextTalks = new HashMap<>();
+
+    private Map<String, Object> _friendUsers = new HashMap<>();
     //Map<String, Object> _attendedLectures = new HashMap<>();
 
 
@@ -35,6 +38,8 @@ public class User {
     public User() {
 
     }
+
+
     public List<Talk> getTalkList(){return talkList;}
 
     public void setTalkList(List<Talk> tl){
@@ -45,6 +50,14 @@ public class User {
         this.talkList.add(t);
     }
 
+ /**   public void setTalkList(Map<String, Object> map)
+    {
+        this.talkList = map;
+    }
+    public Map<String, Object> getTalkList()
+    {
+        return this.talkList;
+    }**/
     public String getUsername() {
         return username;
     }
