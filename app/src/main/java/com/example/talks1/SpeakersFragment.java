@@ -110,16 +110,16 @@ public class SpeakersFragment extends Fragment {
                                     R.drawable.album2,};
 
                             User u = new User(user.getName(), user.getUsername(), covers[0]);
-                            talkList.add(t);
-                            Log.i(TAG, "Value of  = " + t.getTitle());
+                            speakers.add(u);
+                            Log.i(TAG, "Value of  = " + u.getName() + " ;" + u.getUsername());
 
                         }
                     }
-                    Log.i(TAG, "Values of talkListID: " + talkListID);
-                    Log.i(TAG, "Values of talkList: " + talkList);
+                    Log.i(TAG, "Values of talkListID: " + speakersListID);
+                    Log.i(TAG, "Values of talkList: " + speakers);
 
 
-                    adapter = new TalksAdapter(TalksFragment.this, talkList);
+                    adapter = new SpeakersAdapter(SpeakersFragment.this, speakers);
                     recyclerView .setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
