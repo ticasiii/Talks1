@@ -106,7 +106,7 @@ public class CreateTalkActivity extends AppCompatActivity {
                     //FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     talk.setSpeaker(FirebaseAuth.getInstance().getUid());
 
-                    /**if (!placeSet) {
+                    if (!placeSet) {
                         showPlacePicker();
                     }
                     if (!dateSet) {
@@ -114,7 +114,7 @@ public class CreateTalkActivity extends AppCompatActivity {
                     }
                     else {
                         showTimePicker();
-                    }**/
+                    }
                     FirebaseDatabase.getInstance().getReference("talks").push().setValue(talk, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -195,8 +195,8 @@ public class CreateTalkActivity extends AppCompatActivity {
     }
 
     public void showPlacePicker() {
-       // Intent intent = new Intent(CreateTalkActivity.this, MapsPickerActivity.class);
-       // startActivityForResult(intent,MAPS_PICKER_ACTIVITY_RESULT);
+        Intent intent = new Intent(CreateTalkActivity.this, MapsPickerActivity.class);
+        startActivityForResult(intent,MAPS_PICKER_ACTIVITY_RESULT);
     }
 
     private void openTalk(){
@@ -300,7 +300,6 @@ public class CreateTalkActivity extends AppCompatActivity {
                 talk.setAddress(address);
 
                 placeSet = true;
-                showDatePicker();
             }
         }
         else if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {

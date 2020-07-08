@@ -157,6 +157,12 @@ public class TalksFragment extends Fragment {
                  Log.i(TAG, "Values of talkListID: " + talkListID);
                  Log.i(TAG, "Values of talkList: " + talkList);
 
+
+                 adapter = new TalksAdapter(TalksFragment.this, talkList);
+                 recyclerView .setAdapter(adapter);
+                 adapter.notifyDataSetChanged();
+
+
              }
 
 

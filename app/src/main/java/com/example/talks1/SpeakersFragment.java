@@ -42,6 +42,8 @@ public class SpeakersFragment extends Fragment {
     private SpeakersAdapter adapter;
     private Map<String, Object> speakersList;
     private List<User> speakers;
+    private List<String> speakersListID;
+
     private static final String TAG=MainActivity.class.getSimpleName();
 
 
@@ -68,46 +70,139 @@ public class SpeakersFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        prepareSpeakers();
-        //prepareSpeakersFromFirebase();
+        //prepareSpeakers();
+        prepareSpeakersFromFirebase();
 
         return view;
     }
 
 
 
-    /**private void prepareSpeakersFromFirebase(){
+    private void prepareSpeakersFromFirebase(){
 
-        myRef = FirebaseDatabase.getInstance().getReference("users");
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
 
-        myRef.addValueEventListener(new ValueEventListener(){
+            String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+
+
+
+            usersRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    speakers = new ArrayList<User>();
+                    speakersListID = new ArrayList<String>();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Log.i(TAG, "Value of getValue = " + snapshot.getValue(User.class));
+                        Log.i(TAG, "Value of getKey = " + snapshot.getKey());
+
+
+                        Toast.makeText(getActivity(),"Value:", Toast.LENGTH_SHORT).show();
+
+                        String userID = snapshot.getKey();
+                        speakersListID.add(userID);
+                        User user = snapshot.getValue(User.class);
+                        if (user != null) {
+                            //talkList.add(talk);
+                            int[] covers = new int[]{
+                                    R.drawable.album1,
+                                    R.drawable.album2,};
+
+                            User u = new User(user.getName(), user.getUsername(), covers[0]);
+                            talkList.add(t);
+                            Log.i(TAG, "Value of  = " + t.getTitle());
+
+                        }
+                    }
+                    Log.i(TAG, "Values of talkListID: " + talkListID);
+                    Log.i(TAG, "Values of talkList: " + talkList);
+
+
+                    adapter = new TalksAdapter(TalksFragment.this, talkList);
+                    recyclerView .setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+
+
+                }
+
+
+
+
+
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+            /**       talksRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot){
-                /* This method is called once with the initial value and again whenever data at this location is updated.*
-                long value=dataSnapshot.getChildrenCount();
-                Log.d(TAG,"no of children: "+value);
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
 
 
-                Map<String, Object> td = (HashMap<String,Object>) dataSnapshot.getValue();
+            for (DataSnapshot snapshots : dataSnapshot.getChildren()) {
+            String talkID = snapshots.getValue(Talk.class);
+            talkID.add(talkID);
 
-                ArrayList<User> usersID = new ArrayList<User>(td.values());
+            Talk latest = talkList.get(talkList.size() - 1);
+            int[] covers = new int[]{
+            R.drawable.album1,
+            R.drawable.album2,};
 
-
-
+            Talk t = new Talk(latest.getTitle(), latest.getSpeaker(), covers[0]);
+            talkList.add(t);                 }
+            // A new message has been added
+            // onChildAdded() will be called for each node at the first time
 
             }
 
             @Override
-            public void onCancelled(DatabaseError error){
-                // Failed to read value
-                Log.w(TAG,"Failed to read value.",error.toException());
-            }
-        });
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+            Log.e(TAG, "onChildChanged:" + dataSnapshot.getKey());
 
+            // A message has changed
+            Talk talk = dataSnapshot.getValue(Talk.class);
+            Toast.makeText(getActivity(), "onChildChanged: ", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            Log.e(TAG, "onChildRemoved:" + dataSnapshot.getKey());
+
+            // A message has been removed
+            Talk talk = dataSnapshot.getValue(Talk.class);
+            Toast.makeText(getActivity(), "onChildRemoved: " , Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+            Log.e(TAG, "onChildMoved:" + dataSnapshot.getKey());
+
+            // A message has changed position
+            Talk talk = dataSnapshot.getValue(Talk.class);
+            Toast.makeText(getActivity(), "onChildMoved: ", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            Log.e(TAG, "postMessages:onCancelled", databaseError.toException());
+            Toast.makeText(getActivity(), "Failed to load Message.", Toast.LENGTH_SHORT).show();
+            }
+            });
+
+
+             }**/
+        }
+
+        else {
+            startActivity(new Intent(getActivity(),SplashLoginActivity.class));
+        }
         adapter.notifyDataSetChanged();
 
-
-    }**/
+    }
 
     private void prepareSpeakers() {
         int[] covers = new int[]{

@@ -40,6 +40,10 @@ public class User {
 
     }
 
+    public User(String fullname,String username, int picture){
+
+
+    }
 
     public List<Talk> getTalkList(){return talkList;}
 
