@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateTalkActivity"></activity>
+        <activity android:name=".SpeakerDetailsActivity"></activity>
+        <activity android:name=".TalkDetailsActivity" />
+        <activity android:name=".CreateTalkActivity" />
         <activity android:name=".SplashLoginActivity" />
         <activity android:name=".SplashLogoActivity">
             <intent-filter>

@@ -1,28 +1,20 @@
 package com.example.talks1;
 
-import android.content.Intent;
-import android.content.res.Resources;
-import android.os.Bundle;
-/**import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;**/
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.talks1.Models.Talk;
 import com.example.talks1.Models.User;
@@ -32,7 +24,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -40,7 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyProfileFragment extends Fragment {
+public class SpeakerDetailsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TalksAdapter adapter;
@@ -51,46 +42,42 @@ public class MyProfileFragment extends Fragment {
     private TextView fFullname, fUsername, fRate, fRateDesc, fTalkLabel, fTalkLabelDesc;
     private ImageView fPorfileImage;
 
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_speaker_details);
 
+        recyclerView = findViewById(R.id.recycler_view);
+        fFullname = findViewById(R.id.fullname_field);
+        fUsername = findViewById(R.id.username_field);
+        fRate = findViewById(R.id.rate_label);//zavisno nod tipa usera
+        fRateDesc = findViewById(R.id.rate_desc); //zavisno od tipa usera
 
-        View view = inflater.inflate(R.layout.fragment_my_profile, container, false);
+        fTalkLabel = findViewById(R.id.talk_label);
+        fTalkLabelDesc = findViewById(R.id.talk_desc);
 
-
-        /**initCollapsingToolbar(view);*/
-
-        recyclerView = view.findViewById(R.id.recycler_view);
-        fFullname = view.findViewById(R.id.fullname_field);
-        fUsername = view.findViewById(R.id.username_field);
-        fRate = view.findViewById(R.id.rate_label);//zavisno nod tipa usera
-        fRateDesc = view.findViewById(R.id.rate_desc); //zavisno od tipa usera
-
-        fTalkLabel = view.findViewById(R.id.talk_label);
-        fTalkLabelDesc = view.findViewById(R.id.talk_desc);
-
-        fUsernameProfile= view.findViewById(R.id.username_profile);
-        fFullnameProfile = view.findViewById(R.id.full_name_profile);
-        fEmailProfile = view.findViewById(R.id.email_profile);
-        fDescriptionProfile = view.findViewById(R.id.description_profile);
-        fPorfileImage = view.findViewById(R.id.profile_image);
+        fUsernameProfile= findViewById(R.id.username_profile);
+        fFullnameProfile = findViewById(R.id.full_name_profile);
+        fEmailProfile = findViewById(R.id.email_profile);
+        fDescriptionProfile = findViewById(R.id.description_profile);
+        fPorfileImage = findViewById(R.id.profile_image);
 
 
 
         talkList = new ArrayList<>();
-        adapter = new TalksAdapter(this, talkList);
+//        adapter = new TalksAdapter(this, talkList);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 1);
+       /** RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         //recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);**/
 
         prepareData();
 
         prepareTalks();
 
 
-        return view;
     }
 
     private void prepareData(){
@@ -127,7 +114,7 @@ public class MyProfileFragment extends Fragment {
                             FirebaseStorage storage = FirebaseStorage.getInstance();
                             StorageReference ref = storage.getReference().child("images").child(currentUser.getPicture());
 
-                            GlideApp.with(getActivity()).load(ref).into(fPorfileImage);
+                            GlideApp.with(getApplicationContext()).load(ref).into(fPorfileImage);
 
                             //Picasso.with(LectureDetailsActivity.this).load(lecture.getPicture()).into(ivPicture);
 
@@ -141,7 +128,7 @@ public class MyProfileFragment extends Fragment {
 
                     }
                     else{
-                        startActivity(new Intent(getActivity(),SplashLoginActivity.class));
+                        startActivity(new Intent(SpeakerDetailsActivity.this,SplashLoginActivity.class));
                     }
                 }
 
@@ -152,7 +139,7 @@ public class MyProfileFragment extends Fragment {
 
         }
         else {
-            startActivity(new Intent(getActivity(),SplashLoginActivity.class));
+            startActivity(new Intent(SpeakerDetailsActivity.this,SplashLoginActivity.class));
         }
     }
 

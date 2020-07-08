@@ -166,9 +166,9 @@ public class Talk {
     }
 
     public String composeDateString() {
-        String dateString = Integer.toString(year) + "-" + Integer.toString(month) + "-"
-                + Integer.toString(day) + " " + Integer.toString(hour) + ":"
-                + Integer.toString(minute);
+        String dateString = year + "-" + month + "-"
+                + day + " " + hour + ":"
+                + minute;
         return  dateString;
     }
 }

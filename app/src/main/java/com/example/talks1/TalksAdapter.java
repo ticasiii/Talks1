@@ -4,6 +4,7 @@ package com.example.talks1;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;**/
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import java.util.List;
 public class TalksAdapter extends RecyclerView.Adapter<TalksAdapter.MyViewHolder> {
 
     private Fragment mContext;
+    private Activity mActivity;
     private List<Talk> talkList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -34,10 +36,10 @@ public class TalksAdapter extends RecyclerView.Adapter<TalksAdapter.MyViewHolder
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.title);
-            speaker = (TextView) view.findViewById(R.id.speaker);
-            cover = (ImageView) view.findViewById(R.id.cover);
-            overflow = (ImageView) view.findViewById(R.id.overflow);
+            title = view.findViewById(R.id.title);
+            speaker = view.findViewById(R.id.speaker);
+            cover = view.findViewById(R.id.cover);
+            overflow = view.findViewById(R.id.overflow);
         }
     }
 
@@ -46,6 +48,11 @@ public class TalksAdapter extends RecyclerView.Adapter<TalksAdapter.MyViewHolder
         this.mContext = mContext;
         this.talkList = talkList;
     }
+
+/**    public TalksAdapter(Activity mActivity, List<Talk> talkList){
+        this.mActivity = mActivity;
+        this.talkList = talkList;
+    }**/
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

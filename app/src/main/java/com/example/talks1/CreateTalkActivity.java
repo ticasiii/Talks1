@@ -58,6 +58,7 @@ public class CreateTalkActivity extends AppCompatActivity {
     EditText etName;
     EditText etDescription;
     EditText etHeadSpeaker;
+    EditText etCategory;
 
     TextView etDate;
     TextView etTime;
@@ -67,6 +68,7 @@ public class CreateTalkActivity extends AppCompatActivity {
     Button bCancel;
 
     Talk talk;
+    String talkID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,17 +80,18 @@ public class CreateTalkActivity extends AppCompatActivity {
         dateSet = false;
         timeSet = false;
 
-        ivPicture = (ImageView) findViewById(R.id.activity_create_talk_picture);
-        etName = (EditText) findViewById(R.id.activity_create_title);
-        etDescription = (EditText) findViewById(R.id.activity_create_talk_description);
+        ivPicture = findViewById(R.id.activity_create_talk_picture);
+        etName = findViewById(R.id.activity_create_title);
+        etDescription = findViewById(R.id.activity_create_talk_description);
+        etCategory = findViewById(R.id.activity_create_talk_category);
         //etHeadSpeaker = (EditText)findViewById(R.id.activity_create_lecture_headspeaker);
 
-        bPicture = (Button) findViewById(R.id.activity_create_lecture_picture_button);
-        bCreate = (Button) findViewById(R.id.activity_create_talk_create_button);
-        bCancel = (Button) findViewById(R.id.activity_create_talk_cancel_button);
+        bPicture = findViewById(R.id.activity_create_lecture_picture_button);
+        bCreate = findViewById(R.id.activity_create_talk_create_button);
+        bCancel = findViewById(R.id.activity_create_talk_cancel_button);
 
-        etTime = (TextView) findViewById(R.id.activity_create_talk_time);
-        etDate = (TextView) findViewById(R.id.activity_create_talk_date);
+        etTime = findViewById(R.id.activity_create_talk_time);
+        etDate = findViewById(R.id.activity_create_talk_date);
 
         bCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +102,7 @@ public class CreateTalkActivity extends AppCompatActivity {
                     if (!etDescription.getText().toString().isEmpty()) {
                         talk.setDescription(etDescription.getText().toString());
                     }
+                    talk.setCategory(etCategory.getText().toString());
                     //FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     talk.setSpeaker(FirebaseAuth.getInstance().getUid());
 
@@ -116,10 +120,14 @@ public class CreateTalkActivity extends AppCompatActivity {
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                             if (databaseReference != null) {
 
-                                databaseReference.child("id").setValue(databaseReference.getKey());
-                                databaseReference.child("picture").setValue(databaseReference.getKey());
+                                talkID = databaseReference.getKey();
 
-                                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("eventImages").child(databaseReference.getKey());
+
+                                databaseReference.child("id").setValue(talkID);
+                                databaseReference.child("picture").setValue(talkID);
+
+
+                                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("eventImages").child(talkID);
                                 ivPicture.setDrawingCacheEnabled(true);
                                 ivPicture.buildDrawingCache();
                                 Bitmap bitmap = ivPicture.getDrawingCache();
@@ -136,8 +144,11 @@ public class CreateTalkActivity extends AppCompatActivity {
                                     }
                                 });
 
-                                Intent intent = new Intent(CreateTalkActivity.this, MainActivity.class);
-                                Toast.makeText(CreateTalkActivity.this, "Event successfully created", Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(CreateTalkActivity.this, TalkDetailsActivity.class);
+                                intent.putExtra("talkID", talkID);
+
+                                Toast.makeText(CreateTalkActivity.this, "Event successfully created" + talkID, Toast.LENGTH_SHORT).show();
                                 startActivity(intent);
                             }
                             else {
@@ -149,6 +160,8 @@ public class CreateTalkActivity extends AppCompatActivity {
                 else {
                     Toast.makeText(CreateTalkActivity.this, "Name your event.", Toast.LENGTH_SHORT).show();
                 }
+                //openTalk();
+
             }
         });
 
@@ -186,6 +199,11 @@ public class CreateTalkActivity extends AppCompatActivity {
        // startActivityForResult(intent,MAPS_PICKER_ACTIVITY_RESULT);
     }
 
+    private void openTalk(){
+        startActivity(new Intent(CreateTalkActivity.this, SpeakerDetailsActivity.class));
+
+    }
+
     public void showDatePicker() {
 
         Calendar now = Calendar.getInstance();
@@ -198,7 +216,7 @@ public class CreateTalkActivity extends AppCompatActivity {
                 talk.setDay(selectedDay);
 
 
-                etDate.setText(String.valueOf(selectedDay) + "/" + String.valueOf(selectedMonth +1) + "/" + String.valueOf(selectedYear));
+                etDate.setText(selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear);
 
                 dateSet = true;
 //                showTimePicker();
@@ -217,7 +235,7 @@ public class CreateTalkActivity extends AppCompatActivity {
                 talk.setHour(hourOfDay);
                 talk.setMinute(minute);
 
-                etTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+                etTime.setText(hourOfDay + ":" + minute);
 
 
                 talk.setPast(false);

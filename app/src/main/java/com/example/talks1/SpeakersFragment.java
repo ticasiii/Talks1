@@ -33,7 +33,7 @@ public class SpeakersFragment extends Fragment {
 
         /**initCollapsingToolbar(view);*/
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_id);
+        recyclerView = view.findViewById(R.id.recyclerview_id);
 
         speakers = new ArrayList<>();
         adapter = new SpeakersAdapter(this, speakers);

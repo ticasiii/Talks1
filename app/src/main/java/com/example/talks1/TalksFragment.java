@@ -46,7 +46,7 @@ public class TalksFragment extends Fragment {
 
         /**initCollapsingToolbar(view);*/
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
 
         talkList = new ArrayList<>();
         adapter = new TalksAdapter(this, talkList);

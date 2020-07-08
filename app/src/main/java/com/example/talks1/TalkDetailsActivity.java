@@ -1,28 +1,20 @@
 package com.example.talks1;
 
-import android.content.Intent;
-import android.content.res.Resources;
-import android.os.Bundle;
-/**import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;**/
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.talks1.Models.Talk;
 import com.example.talks1.Models.User;
@@ -32,7 +24,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -40,57 +31,73 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyProfileFragment extends Fragment {
+public class TalkDetailsActivity extends AppCompatActivity {
+
 
     private RecyclerView recyclerView;
     private TalksAdapter adapter;
-    private Fragment mContext;
+    private Activity mContext;
 
     private List<Talk> talkList;
-    private TextInputLayout fUsernameProfile, fFullnameProfile, fEmailProfile, fDescriptionProfile;
-    private TextView fFullname, fUsername, fRate, fRateDesc, fTalkLabel, fTalkLabelDesc;
-    private ImageView fPorfileImage;
-
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
-        View view = inflater.inflate(R.layout.fragment_my_profile, container, false);
+    private TextInputLayout fTitleProfile, fCategoryProfile, fSpeakerlProfile, fDescriptionProfile;
+    private TextView fTitle, fCategory, fRate, fRateDesc, fAttendanceLabel, fAttendanceDesc;
+    private ImageView fTalkImage;
+    private String talkID;
 
 
-        /**initCollapsingToolbar(view);*/
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_talk_details);
 
-        recyclerView = view.findViewById(R.id.recycler_view);
-        fFullname = view.findViewById(R.id.fullname_field);
-        fUsername = view.findViewById(R.id.username_field);
-        fRate = view.findViewById(R.id.rate_label);//zavisno nod tipa usera
-        fRateDesc = view.findViewById(R.id.rate_desc); //zavisno od tipa usera
+        Intent intent = getIntent();
+        this.talkID = intent.getStringExtra("talkID");
 
-        fTalkLabel = view.findViewById(R.id.talk_label);
-        fTalkLabelDesc = view.findViewById(R.id.talk_desc);
 
-        fUsernameProfile= view.findViewById(R.id.username_profile);
-        fFullnameProfile = view.findViewById(R.id.full_name_profile);
-        fEmailProfile = view.findViewById(R.id.email_profile);
-        fDescriptionProfile = view.findViewById(R.id.description_profile);
-        fPorfileImage = view.findViewById(R.id.profile_image);
+        fTitle = findViewById(R.id.title_field);
+        fCategory = findViewById(R.id.category_field);
+        fRate = findViewById(R.id.rate_label);//zavisno nod tipa usera
+        fRateDesc = findViewById(R.id.rate_desc); //zavisno od tipa usera
+
+        fAttendanceLabel = findViewById(R.id.attendance_label);
+        fAttendanceDesc = findViewById(R.id.attendance_desc);
+
+        fTitleProfile= findViewById(R.id.title_profile);
+        fCategoryProfile = findViewById(R.id.category_profile);
+        fSpeakerlProfile = findViewById(R.id.speaker_profile);
+        fDescriptionProfile = findViewById(R.id.description_profile);
+        fTalkImage = findViewById(R.id.talk_image);
 
 
 
         talkList = new ArrayList<>();
-        adapter = new TalksAdapter(this, talkList);
-
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 1);
+        //adapter = new TalksAdapter(, talkList);
+/**
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         //recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);**/
+
+
 
         prepareData();
 
         prepareTalks();
 
+        fSpeakerlProfile.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                openSpeaker();
+            }
+        });
 
-        return view;
+
+    }
+
+    private void openSpeaker(){
+        startActivity(new Intent(TalkDetailsActivity.this, SpeakerDetailsActivity.class));
+
     }
 
     private void prepareData(){
@@ -101,39 +108,41 @@ public class MyProfileFragment extends Fragment {
 
             String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUserID);
+            DatabaseReference talkRef = FirebaseDatabase.getInstance().getReference().child("talks").child(talkID);
 
-            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            talkRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    User currentUser = dataSnapshot.getValue(User.class);
-                    if (currentUser != null) {
+                    Talk selectedTalk = dataSnapshot.getValue(Talk.class);
+                    if (selectedTalk != null) {
 
-                        fUsername.setText(currentUser.getUsername());
-                        fUsernameProfile.getEditText().setText(currentUser.getUsername());
-                        fFullname.setText(currentUser.getName());
-                        fFullnameProfile.getEditText().setText(currentUser.getName());
-                        fEmailProfile.getEditText().setText(currentUser.getEmail());
-                        fDescriptionProfile.getEditText().setText(currentUser.getInfo());
+                        fCategory.setText(selectedTalk.getCategory());
+                        fCategoryProfile.getEditText().setText(selectedTalk.getCategory());
+                        fTitle.setText(selectedTalk.getTitle());
+                        fSpeakerlProfile.getEditText().setText(selectedTalk.getSpeaker());
+                        fTitleProfile.getEditText().setText(selectedTalk.getTitle());
+                        fDescriptionProfile.getEditText().setText(selectedTalk.getDescription());
                         //password.setText(user_password);
 
                         fRate.setText("rate");
                         fRateDesc.setText("RATE");
 
-                        fTalkLabel.setText("num talk");
-                        fTalkLabelDesc.setText("TALKS");
+                        fAttendanceLabel.setText("num funs");
+                        fAttendanceDesc.setText("FANS");
+                        Toast.makeText(TalkDetailsActivity.this, "talkID:" + talkID + "ovo drugo:" + selectedTalk.getPicture(),Toast.LENGTH_LONG).show();
 
-                        if (currentUser.getPicture() != null) {
+
+                        if (talkID != null) {
                             FirebaseStorage storage = FirebaseStorage.getInstance();
-                            StorageReference ref = storage.getReference().child("images").child(currentUser.getPicture());
+                            StorageReference ref = storage.getReference().child("eventImages").child(selectedTalk.getPicture());
 
-                            GlideApp.with(getActivity()).load(ref).into(fPorfileImage);
+                            GlideApp.with(getApplicationContext()).load(ref).into(fTalkImage);
 
                             //Picasso.with(LectureDetailsActivity.this).load(lecture.getPicture()).into(ivPicture);
 
                         }
                         else {
-                            fPorfileImage.setImageResource(0);
+                            fTalkImage.setImageResource(0);
                             //TextDrawable drawable = TextDrawable.builder()
                             //        .buildRoundRect(tvName.getText().toString().substring(0, 1), Color.DKGRAY, 16);
                             //ivPicture.setImageDrawable(drawable);
@@ -141,7 +150,7 @@ public class MyProfileFragment extends Fragment {
 
                     }
                     else{
-                        startActivity(new Intent(getActivity(),SplashLoginActivity.class));
+                        startActivity(new Intent(TalkDetailsActivity.this,SplashLoginActivity.class));
                     }
                 }
 
@@ -152,7 +161,7 @@ public class MyProfileFragment extends Fragment {
 
         }
         else {
-            startActivity(new Intent(getActivity(),SplashLoginActivity.class));
+            startActivity(new Intent(TalkDetailsActivity.this,SplashLoginActivity.class));
         }
     }
 
@@ -202,7 +211,7 @@ public class MyProfileFragment extends Fragment {
         t = new Talk("Title", "Spekear", covers[9]);
         talkList.add(t);
 
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
     }
 
 

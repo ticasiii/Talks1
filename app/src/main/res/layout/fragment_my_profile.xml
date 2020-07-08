@@ -63,9 +63,9 @@
 
                 <ImageView
                     android:layout_centerHorizontal="true"
-                    android:layout_height="30dp"
-                    android:layout_width="30dp"
-                    android:src="@drawable/baseline_subscriptions_24" />
+                    android:layout_height="40dp"
+                    android:layout_width="40dp"
+                    android:src="@drawable/outline_grade_black_24dp" />
 
                 <TextView
                     android:fontFamily="monospace"
@@ -153,7 +153,7 @@
             android:fontFamily="sans-serif-condensed" >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:drawableLeft="@drawable/username_small_icon"
+                android:drawableLeft="@drawable/outline_alternate_email_black_18dp"
                 android:drawablePadding="10dp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent" />
@@ -170,7 +170,7 @@
             android:fontFamily="sans-serif-condensed">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:drawableLeft="@drawable/username_small_icon"
+                android:drawableLeft="@drawable/outline_account_box_black_18dp"
                 android:drawablePadding="10dp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent" />
@@ -187,7 +187,7 @@
             android:fontFamily="sans-serif-condensed" >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:drawableLeft="@drawable/username_small_icon"
+                android:drawableLeft="@drawable/outline_email_black_18dp"
                 android:drawablePadding="10dp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent" />
@@ -206,7 +206,7 @@
             >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:drawableLeft="@drawable/username_small_icon"
+                android:drawableLeft="@drawable/outline_info_black_18dp"
                 android:drawablePadding="10dp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent" />

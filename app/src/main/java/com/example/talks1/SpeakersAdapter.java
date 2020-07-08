@@ -30,9 +30,9 @@ public class SpeakersAdapter extends RecyclerView.Adapter<SpeakersAdapter.MyView
 
         public MyViewHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.name_speaker);
-            cover = (ImageView) view.findViewById(R.id.cover_speaker);
-            overflow = (ImageView) view.findViewById(R.id.overflow);
+            name = view.findViewById(R.id.name_speaker);
+            cover = view.findViewById(R.id.cover_speaker);
+            overflow = view.findViewById(R.id.overflow);
         }
     }
 

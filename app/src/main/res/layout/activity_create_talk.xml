@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateTalkActivity"> <LinearLayout
+    tools:context=".CreateTalkActivity">
+
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -75,20 +77,22 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                 <TextView
-                android:id="@+id/activity_create_talk_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:ems="10"
-                android:hint="Choose time"
-                android:background="@color/viewBg"
-                android:fontFamily="sans-serif-condensed"
-                android:padding="10dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:textColorHint="@color/colorPrimaryDark"
-                android:textSize="16sp" />
+                    android:id="@+id/activity_create_talk_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:ems="10"
+                    android:hint="Time"
+
+                    android:drawableRight="@drawable/outline_schedule_black_18dp"
+                    android:background="@color/viewBg"
+                    android:fontFamily="sans-serif-condensed"
+                    android:padding="10dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@color/colorPrimaryDark"
+                    android:textSize="16sp" />
                 <TextView
                     android:id="@+id/activity_create_talk_date"
                     android:layout_width="match_parent"
@@ -98,6 +102,8 @@
                     android:layout_marginEnd="16dp"
                     android:ems="10"
                     android:hint="Choose date"
+                    android:drawableRight="@drawable/outline_event_black_18dp"
+
                     android:background="@color/viewBg"
                     android:fontFamily="sans-serif-condensed"
                     android:padding="10dp"
