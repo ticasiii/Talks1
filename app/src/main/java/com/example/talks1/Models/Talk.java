@@ -1,5 +1,8 @@
 package com.example.talks1.Models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Talk {
 
 
@@ -20,6 +23,8 @@ public class Talk {
 
     private double lat;
     private double lng;
+
+    Map<String, Object> attendance = new HashMap<>();
 
     private Boolean past;
 
@@ -44,6 +49,13 @@ public class Talk {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+    public Map<String, Object> getAttendance() {
+        return attendance;
+    }
+
+    public void setAttendance(Map<String, Object> attendance) {
+        this.attendance = attendance;
     }
 
     public String getSpeaker() {

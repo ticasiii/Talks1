@@ -49,10 +49,6 @@ public class TalksAdapter extends RecyclerView.Adapter<TalksAdapter.MyViewHolder
         this.talkList = talkList;
     }
 
-/**    public TalksAdapter(Activity mActivity, List<Talk> talkList){
-        this.mActivity = mActivity;
-        this.talkList = talkList;
-    }**/
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

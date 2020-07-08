@@ -53,13 +53,14 @@ public class TalksFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private TalksAdapter adapter;
-    private List<Talk> talkList;
+    List<Talk> talkList;
+    private List<String> talkListID;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
         View view = inflater.inflate(R.layout.fragment_talks, container, false);
-        List<Talk> talkList = new ArrayList<>();
+        talkList = new ArrayList<>();
 
 
 
@@ -67,7 +68,7 @@ public class TalksFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view);
 
-        adapter = new TalksAdapter(this, talkList);
+        adapter = new TalksAdapter(this, this.talkList);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -126,15 +127,20 @@ public class TalksFragment extends Fragment {
 
 
 
- /**        talksRef.addValueEventListener(new ValueEventListener() {
+         talksRef.addValueEventListener(new ValueEventListener() {
              @Override
              public void onDataChange(DataSnapshot dataSnapshot) {
                  talkList = new ArrayList<Talk>();
+                 talkListID = new ArrayList<String>();
                  for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                     Log.i(TAG, "Value = " + snapshot.getValue(Talk.class));
+                     Log.i(TAG, "Value of getValue = " + snapshot.getValue(Talk.class));
+                     Log.i(TAG, "Value of getKey = " + snapshot.getKey());
+
 
                      Toast.makeText(getActivity(),"Value:", Toast.LENGTH_SHORT).show();
 
+                     String talkID = snapshot.getKey();
+                     talkListID.add(talkID);
                      Talk talk = snapshot.getValue(Talk.class);
                          if (talk != null) {
                              //talkList.add(talk);
@@ -144,9 +150,14 @@ public class TalksFragment extends Fragment {
 
                              Talk t = new Talk(talk.getTitle(), talk.getSpeaker(), covers[0]);
                              talkList.add(t);
+                             Log.i(TAG, "Value of  = " + t.getTitle());
+
                          }
                      }
-                 }
+                 Log.i(TAG, "Values of talkListID: " + talkListID);
+                 Log.i(TAG, "Values of talkList: " + talkList);
+
+             }
 
 
 
@@ -158,17 +169,16 @@ public class TalksFragment extends Fragment {
                  Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
              }
          });
-         adapter.notifyDataSetChanged();**/
 
 
-         talksRef.addChildEventListener(new ChildEventListener() {
+  /**       talksRef.addChildEventListener(new ChildEventListener() {
              @Override
              public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
 
 
                  for (DataSnapshot snapshots : dataSnapshot.getChildren()) {
-                     Talk talk = snapshots.getValue(Talk.class);
-                      talkList.add(talk);
+                     String talkID = snapshots.getValue(Talk.class);
+                      talkID.add(talkID);
 
                      Talk latest = talkList.get(talkList.size() - 1);
                      int[] covers = new int[]{
@@ -217,11 +227,14 @@ public class TalksFragment extends Fragment {
          });
 
 
+     }**/
      }
 
      else {
          startActivity(new Intent(getActivity(),SplashLoginActivity.class));
      }
+     adapter.notifyDataSetChanged();
+
  }
 
 
@@ -260,20 +273,7 @@ public class TalksFragment extends Fragment {
         t = new Talk("Title", "Spekear", covers[4]);
         talkList.add(t);
 
-        t = new Talk("Title", "Spekear", covers[5]);
-        talkList.add(t);
-
-        t = new Talk("Title", "Spekear", covers[6]);
-        talkList.add(t);
-
-        t = new Talk("Title", "Spekear", covers[7]);
-        talkList.add(t);
-
-        t = new Talk("Title", "Spekear", covers[8]);
-        talkList.add(t);
-
-        t = new Talk("Title", "Spekear", covers[9]);
-        talkList.add(t);
+        Log.i(TAG, "Values of talkList: " + talkList);
 
         adapter.notifyDataSetChanged();
     }

@@ -16,6 +16,7 @@ public class User {
     private String info;
     private String picture;
     private boolean speaker;
+    private Integer points;
     //private Map<String, Object> talkList = new HashMap<>();
     private List<Talk> talkList;
 
@@ -24,7 +25,7 @@ public class User {
 
 
     private Map<String, Object> _favouriteSpeakers = new HashMap<>();
-    private Map<String, Object> _favouriteTalks = new HashMap<>();
+    private Map<String, Object> _interestedTalks = new HashMap<>();
     private Map<String, Object> _playNextTalks = new HashMap<>();
 
     private Map<String, Object> _friendUsers = new HashMap<>();
@@ -58,12 +59,21 @@ public class User {
     {
         return this.talkList;
     }**/
+
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
     }
 
     public String getEmail() {
@@ -114,12 +124,12 @@ public class User {
         this._favouriteSpeakers = _favouriteSpeakers;
     }
 
-    public Map<String, Object> get_favouriteTalks() {
-        return _favouriteTalks;
+    public Map<String, Object> get_interestedTalks() {
+        return _interestedTalks;
     }
 
-    public void set_favouriteTalks(Map<String, Object> _favouriteTalks) {
-        this._favouriteTalks = _favouriteTalks;
+    public void set_interestedTalks(Map<String, Object> _favouriteTalks) {
+        this._interestedTalks = _favouriteTalks;
     }
 	
 

@@ -32,7 +32,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/category_field"
+            android:id="@+id/date_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/title_field"
@@ -60,6 +60,12 @@
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:padding="15dp">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    android:id="@+id/activity_event_details_rate_event"></Button>
+
 
                 <ImageView
                     android:layout_centerHorizontal="true"
@@ -102,6 +108,11 @@
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:padding="15dp">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    android:id="@+id/activity_event_details_follow_button"></Button>
 
                 <ImageView
                     android:layout_centerHorizontal="true"
@@ -184,13 +195,16 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimaryDark"
                 android:inputType="textPersonName"
+                android:clickable="true"
                 android:fontFamily="sans-serif-condensed" >
+
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:drawableLeft="@drawable/outline_email_black_18dp"
                     android:drawablePadding="10dp"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent" />
+
 
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
@@ -213,11 +227,68 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:hint="Address"
+                android:id="@+id/activity_event_details_address"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColor="@color/colorPrimaryDark"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:inputType="textMultiLine"
+                android:fontFamily="sans-serif-condensed"
+
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:drawableLeft="@drawable/outline_info_black_18dp"
+                    android:drawablePadding="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:id="@+id/list_view">
+                </ListView>
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="SHOW ON MAP"
+                android:layout_margin="10dp"
+                android:background="@color/colorPrimaryDark"
+                android:id="@+id/activity_event_details_show_on_map_button"
+                ></Button>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="SEE SPEAKER"
+                android:layout_margin="10dp"
+                android:background="@color/colorPrimaryDark"
+                android:id="@+id/activity_event_details_see_speaker">
+
+            </Button>
+        </LinearLayout>
+
+
 
         </LinearLayout>
     </ScrollView>
-
-
 
 
 
