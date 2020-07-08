@@ -1,6 +1,5 @@
 package com.example.talks1;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Context;
@@ -23,6 +22,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class MapsPickerActivity extends FragmentActivity implements OnMapReadyCallback {
-
     public static final String EVENT_ARRAY_EXTRA = "eventsarray";
 
     private GoogleMap mMap;
@@ -154,9 +153,9 @@ public class MapsPickerActivity extends FragmentActivity implements OnMapReadyCa
          * Initialize Places. For simplicity, the API key is hard-coded. In a production
          * environment we recommend using a secure mechanism to manage API keys.
          */
-  //      if (!Places.isInitialized()) {
-  //          Places.initialize(getApplicationContext(), mContext.getString(R.string.google_maps_key));
-   //     }
+               if (!Places.isInitialized()) {
+                 Places.initialize(getApplicationContext(), mContext.getString(R.string.google_maps_key));
+              }
 
 // Initialize the AutocompleteSupportFragment.
         /*AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)

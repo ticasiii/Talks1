@@ -296,12 +296,10 @@ public class TalkDetailsActivity extends AppCompatActivity {
         int day = now.get(Calendar.DAY_OF_MONTH);
         int hour = now.get(Calendar.HOUR_OF_DAY);
         int minutes = now.get(Calendar.MINUTE);
-        if(selectedTalk.getYear() >= year &&
-                selectedTalk.getMonth() >= month &&
-                selectedTalk.getDay() >= day &&
-                selectedTalk.getHour() >= hour)
-            return false;
-        return true;
+        return selectedTalk.getYear() < year ||
+                selectedTalk.getMonth() < month ||
+                selectedTalk.getDay() < day ||
+                selectedTalk.getHour() < hour;
     }
     int pts = 0;
     private void rateEvent(final int rate)
