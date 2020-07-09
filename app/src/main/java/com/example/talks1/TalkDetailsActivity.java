@@ -61,7 +61,7 @@ public class TalkDetailsActivity extends AppCompatActivity {
     private Boolean following;
     private Button bUser;
     private Button bRateEvent;
-    private TextView tvAddress;
+    private TextInputLayout tvAddress;
     private TextView tvDate;
 
 
@@ -73,7 +73,7 @@ public class TalkDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_talk_details);
 
         Intent intent = getIntent();
-        this.talkID = intent.getStringExtra("talkID");
+        this.talkID = intent.getStringExtra("talkId");
 
 
         fTitle = findViewById(R.id.title_field);
@@ -107,7 +107,7 @@ public class TalkDetailsActivity extends AppCompatActivity {
         bFollow = (Button) findViewById(R.id.activity_event_details_follow_button);
         bUser = (Button) findViewById(R.id.activity_event_details_see_speaker);
 
-        tvAddress = (TextView) findViewById(R.id.activity_event_details_address);
+        tvAddress = findViewById(R.id.activity_event_details_address);
         tvDate = (TextView) findViewById(R.id.date_field) ;
 
 

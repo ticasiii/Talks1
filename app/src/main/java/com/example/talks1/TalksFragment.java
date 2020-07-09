@@ -149,7 +149,7 @@ public class TalksFragment extends Fragment {
                                      R.drawable.album2,};
 
                              Talk t = new Talk(talk.getTitle(), talk.getSpeaker(), covers[0]);
-                             talkList.add(t);
+                             talkList.add(talk);
                              Log.i(TAG, "Value of  = " + t.getTitle());
 
                          }

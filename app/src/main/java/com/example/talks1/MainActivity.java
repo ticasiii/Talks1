@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.example.talks1.services.LocationService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         BottomNavigationView navView = findViewById(R.id.navigation);
         navView.setOnNavigationItemSelectedListener(this);
-
+        startLocationService();
 
     }
 
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_search_item:
                 Toast.makeText(this, "You clicked search", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, TalkDetailsActivity.class);
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             case R.id.action_map_item:
                 Toast.makeText(this, "You clicked map", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(),CreateTalkActivity.class));
+                startActivity(new Intent(getApplicationContext(), CreateTalkActivity.class));
                 break;
 
             case R.id.action_settings_item:
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             case R.id.action_login_item:
                 Toast.makeText(this, "You clicked Log In", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(),LogInActivity.class));
+                startActivity(new Intent(getApplicationContext(), LogInActivity.class));
                 break;
 
         }
@@ -101,39 +102,36 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
 
- /*   public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Fragment fragment =  new TalksFragment();
-        loadFragment(fragment);
-        switch (item.getItemId()) {
-            case R.id.navigation_talks:
-                fragment = new TalksFragment();
-                break;
+    /*   public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+           Fragment fragment =  new TalksFragment();
+           loadFragment(fragment);
+           switch (item.getItemId()) {
+               case R.id.navigation_talks:
+                   fragment = new TalksFragment();
+                   break;
 
-            case R.id.navigation_speakers:
-                fragment = new SpeakersFragment();
-                break;
+               case R.id.navigation_speakers:
+                   fragment = new SpeakersFragment();
+                   break;
 
-            case R.id.navigation_my_profile:
-                fragment = new MyProfileFragment();
-                break;
+               case R.id.navigation_my_profile:
+                   fragment = new MyProfileFragment();
+                   break;
 
-        }
+           }
 
-        return loadFragment(fragment);
-    }
-*/
+           return loadFragment(fragment);
+       }
+   */
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == R.id.navigation_my_profile){
+        if (item.getItemId() == R.id.navigation_my_profile) {
             return loadFragment(new MyProfileFragment());
-        }
-        else if (item.getItemId() == R.id.navigation_speakers){
+        } else if (item.getItemId() == R.id.navigation_speakers) {
             return loadFragment(new SpeakersFragment());
-        }
-        else if (item.getItemId() == R.id.navigation_talks){
+        } else if (item.getItemId() == R.id.navigation_talks) {
             return loadFragment(new TalksFragment());
-        }
-        else{
+        } else {
             return loadFragment(new MyProfileFragment());
         }
 
@@ -153,4 +151,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
+
+    private void startLocationService() {
+
+        Intent locationServiceIntent = new Intent(MainActivity.this, LocationService.class);
+        //Intent i = LocationService.ma
+        startService(locationServiceIntent);
+    }
+
+    private void stopLocationService() {
+
+        Intent locationServiceIntent = new Intent(MainActivity.this, LocationService.class);
+        //Intent i = LocationService.ma
+        stopService(locationServiceIntent);
+
+    }
 }

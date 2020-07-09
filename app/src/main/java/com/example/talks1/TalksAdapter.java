@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;**/
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.talks1.Models.Talk;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -40,6 +44,14 @@ public class TalksAdapter extends RecyclerView.Adapter<TalksAdapter.MyViewHolder
             speaker = view.findViewById(R.id.speaker);
             cover = view.findViewById(R.id.cover);
             overflow = view.findViewById(R.id.overflow);
+
+            /*speaker.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext.getContext(), TalkDetailsActivity.class);
+                    startActivity(intent);
+                }
+            });*/
         }
     }
 
@@ -54,8 +66,17 @@ public class TalksAdapter extends RecyclerView.Adapter<TalksAdapter.MyViewHolder
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.talk_card, parent, false);
-
-        return new MyViewHolder(itemView);
+        final MyViewHolder myViewHolder = new MyViewHolder(itemView);
+        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String eventId = talkList.get(myViewHolder.getAdapterPosition()).getId();
+                Intent intent = new Intent(mContext.getContext(), TalkDetailsActivity.class);
+                intent.putExtra("talkId", eventId);
+                mContext.getContext().startActivity(intent);
+            }
+        });
+        return myViewHolder;
     }
 
     @Override
@@ -64,8 +85,10 @@ public class TalksAdapter extends RecyclerView.Adapter<TalksAdapter.MyViewHolder
         holder.title.setText(talk.getTitle());
         holder.speaker.setText(talk.getSpeaker());
 
+
         // loading album cover using Glide library
-        Glide.with(mContext).load(talk.getPicture()).into(holder.cover);
+        StorageReference ref = FirebaseStorage.getInstance().getReference().child("events").child(talk.getPicture());
+        GlideApp.with(mContext).load(ref).into(holder.cover);
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override

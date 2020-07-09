@@ -46,7 +46,7 @@ public class LocationService extends Service {
                     Log.d("Mrkva",newLocation.toString());
                     mDatabase.child("users").child(user.getUid()).child("location").setValue(newLocation);
 
-                    FirebaseDatabase.getInstance().getReference("events").addValueEventListener(new ValueEventListener() {
+                    FirebaseDatabase.getInstance().getReference("talks").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -54,13 +54,13 @@ public class LocationService extends Service {
 
                                 //Log.d("MRRRRRRRKVA", talk.getId() );
                                 if (talk != null) {
-                                    Location lectureLocation = new Location("");
-                                    lectureLocation.setLatitude(talk.getLat());
-                                    lectureLocation.setLongitude(talk.getLng());
+                                    Location talkLocation = new Location("");
+                                    talkLocation.setLatitude(talk.getLat());
+                                    talkLocation.setLongitude(talk.getLng());
 
 
-                                    if (newLoc.distanceTo(lectureLocation) < 100) {
-                                        Log.d("MRRRRRRRKVA", String.valueOf(newLoc.distanceTo(lectureLocation)) );
+                                    if (newLoc.distanceTo(talkLocation) < 100) {
+                                        Log.d("MRRRRRRRKVA", String.valueOf(newLoc.distanceTo(talkLocation)) );
                                         displayNotification("Talk Stage App - Talk nearby", "Click to connect");
                                         /*Intent intent = new Intent(LocationService.this, MainActivity.class);
                                         intent.putExtra(EventDetailsActivity.EVENT_ID_EXTRA, lecture.getId());
@@ -131,7 +131,7 @@ public class LocationService extends Service {
 
     private LocationManager mLocationManager;
     private static final int LOCATION_INTERVAL = 10000;
-    private static final float LOCATION_DISTANCE = 2f;
+    private static final float LOCATION_DISTANCE = 15f;
     LocationListener[] mLocationListeners = new LocationListener[]{
             new BackgroundLocationListener(LocationManager.GPS_PROVIDER),
             new BackgroundLocationListener(LocationManager.NETWORK_PROVIDER)
