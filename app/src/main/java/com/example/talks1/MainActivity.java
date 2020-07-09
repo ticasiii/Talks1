@@ -19,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private String talkID;
@@ -90,7 +91,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
             case R.id.action_login_item:
-                startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this, LogInActivity.class));
+                finish();
                 break;
 
         }
@@ -126,6 +130,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
+    public void onStop(){
+        super.onStop();
+        FirebaseAuth.getInstance().signOut();
 
 
+    }
 }
+
+
