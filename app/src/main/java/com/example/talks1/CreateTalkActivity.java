@@ -66,6 +66,7 @@ public class CreateTalkActivity extends AppCompatActivity {
     Button bPicture;
     Button bCreate;
     Button bCancel;
+    Button bMap;
 
     Talk talk;
     String talkID;
@@ -89,6 +90,8 @@ public class CreateTalkActivity extends AppCompatActivity {
         bPicture = findViewById(R.id.activity_create_lecture_picture_button);
         bCreate = findViewById(R.id.activity_create_talk_create_button);
         bCancel = findViewById(R.id.activity_create_talk_cancel_button);
+        bMap = findViewById(R.id.activity_create_talk_map_button);
+
 
         etTime = findViewById(R.id.activity_create_talk_time);
         etDate = findViewById(R.id.activity_create_talk_date);
@@ -105,16 +108,19 @@ public class CreateTalkActivity extends AppCompatActivity {
                     talk.setCategory(etCategory.getText().toString());
                     //FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     talk.setSpeaker(FirebaseAuth.getInstance().getUid());
+                    //showPlacePicker();
 
+/*
                     if (!placeSet) {
                         showPlacePicker();
                     }
-                    if (!dateSet) {
+                    else if (!dateSet) {
                         showDatePicker();
                     }
                     else {
                         showTimePicker();
-                    }
+                    }*/
+
                     FirebaseDatabase.getInstance().getReference("talks").push().setValue(talk, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -172,6 +178,13 @@ public class CreateTalkActivity extends AppCompatActivity {
             }
         });
 
+        bMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPlacePicker();
+            }
+        });
+
         bPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,7 +209,7 @@ public class CreateTalkActivity extends AppCompatActivity {
 
     public void showPlacePicker() {
         Intent intent = new Intent(CreateTalkActivity.this, MapsPickerActivity.class);
-        startActivityForResult(intent,MAPS_PICKER_ACTIVITY_RESULT);
+        startActivityForResult(intent, MAPS_PICKER_ACTIVITY_RESULT);
     }
 
     private void openTalk(){
@@ -219,7 +232,7 @@ public class CreateTalkActivity extends AppCompatActivity {
                 etDate.setText(selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear);
 
                 dateSet = true;
-//                showTimePicker();
+                //showTimePicker();
             }
         };
         DatePickerDialog dpd = new DatePickerDialog(CreateTalkActivity.this, dateOnDateSetListener,now.get(Calendar.YEAR),

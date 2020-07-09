@@ -130,12 +130,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
-    public void onStop(){
-        super.onStop();
-        FirebaseAuth.getInstance().signOut();
 
 
-    }
+
+
 }
 
 

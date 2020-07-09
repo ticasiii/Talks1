@@ -98,6 +98,7 @@ public class TalkDetailsActivity extends AppCompatActivity {
         fDescriptionProfile = findViewById(R.id.description_profile);
         fTalkImage = findViewById(R.id.talk_image);
 
+
         bShowOnMap = (Button)findViewById(R.id.activity_event_details_show_on_map_button) ;
         eventId = getIntent().getStringExtra("talkID");
         bRateEvent = findViewById(R.id.activity_event_details_rate_event);
