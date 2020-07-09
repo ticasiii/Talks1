@@ -1,6 +1,7 @@
 package com.example.talks1;
 
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,7 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.talks1.Models.Speaker;
+import com.example.talks1.Models.Talk;
 import com.example.talks1.Models.User;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 import java.util.Map;
@@ -48,18 +52,28 @@ public class SpeakersAdapter extends RecyclerView.Adapter<SpeakersAdapter.MyView
     @Override
     public SpeakersAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.speaker_card, parent, false);
-
-        return new SpeakersAdapter.MyViewHolder(itemView);
+                .inflate(R.layout.talk_card, parent, false);
+        final SpeakersAdapter.MyViewHolder myViewHolder = new SpeakersAdapter.MyViewHolder(itemView);
+        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String speakerId = speakers.get(myViewHolder.getAdapterPosition()).getId();
+                Intent intent = new Intent(mContext.getContext(), SpeakerDetailsActivity.class);
+                intent.putExtra("userID", speakerId);
+                mContext.getContext().startActivity(intent);
+            }
+        });
+        return myViewHolder;
     }
 
     @Override
     public void onBindViewHolder(final SpeakersAdapter.MyViewHolder holder, int position) {
-        User speaker = speakers.get(position);
-        holder.name.setText(speaker.getName());
+        User user = speakers.get(position);
+        holder.name.setText(user.getName());
 
         // loading album cover using Glide library
-        Glide.with(mContext).load(speaker.getPicture()).into(holder.cover);
+        StorageReference ref = FirebaseStorage.getInstance().getReference().child("images").child(user.getPicture());
+        GlideApp.with(mContext).load(ref).into(holder.cover);
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override

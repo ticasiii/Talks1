@@ -62,10 +62,6 @@ public class TalksFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_talks, container, false);
         talkList = new ArrayList<>();
 
-
-
-        /**initCollapsingToolbar(view);*/
-
         recyclerView = view.findViewById(R.id.recycler_view);
 
         adapter = new TalksAdapter(this, this.talkList);
@@ -137,7 +133,6 @@ public class TalksFragment extends Fragment {
                      Log.i(TAG, "Value of getKey = " + snapshot.getKey());
 
 
-                     Toast.makeText(getActivity(),"Value:", Toast.LENGTH_SHORT).show();
 
                      String talkID = snapshot.getKey();
                      talkListID.add(talkID);

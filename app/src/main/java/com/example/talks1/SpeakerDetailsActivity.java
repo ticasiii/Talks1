@@ -88,7 +88,7 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
 
         prepareData();
 
-        prepareTalks();
+        //prepareTalks();
 
 
     }

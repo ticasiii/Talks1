@@ -99,7 +99,7 @@ public class TalkDetailsActivity extends AppCompatActivity {
         fTalkImage = findViewById(R.id.talk_image);
 
         bShowOnMap = (Button)findViewById(R.id.activity_event_details_show_on_map_button) ;
-        eventId = getIntent().getStringExtra("talkId");
+        eventId = getIntent().getStringExtra("talkID");
         bRateEvent = findViewById(R.id.activity_event_details_rate_event);
         bRateEvent.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -40,10 +40,8 @@ public class User {
 
     }
 
-    public User(String fullname,String username, int picture){
+    public User(String fullname, int picture){
         this.name = fullname;
-        this.username = username;
-
 
     }
 

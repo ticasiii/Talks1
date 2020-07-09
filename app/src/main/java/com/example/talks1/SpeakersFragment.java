@@ -44,7 +44,7 @@ public class SpeakersFragment extends Fragment {
     private List<User> speakers;
     private List<String> speakersListID;
 
-    private static final String TAG=MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
 
 
     private DatabaseReference myRef;
@@ -52,17 +52,12 @@ public class SpeakersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_speakers, container, false);
-
-
-
+        speakers = new ArrayList<>();
 
 
         /**initCollapsingToolbar(view);*/
 
         recyclerView = view.findViewById(R.id.recyclerview_id);
-
-        speakersList = new HashMap<String, Object>();
-        speakers = new ArrayList<User>();
         adapter = new SpeakersAdapter(this, speakers);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 3);
@@ -77,18 +72,16 @@ public class SpeakersFragment extends Fragment {
     }
 
 
+    private void prepareSpeakersFromFirebase() {
 
-    private void prepareSpeakersFromFirebase(){
-
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
             String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+            DatabaseReference talksRef = FirebaseDatabase.getInstance().getReference("talks");
 
 
-
-            usersRef.addValueEventListener(new ValueEventListener() {
+            talksRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     speakers = new ArrayList<User>();
@@ -97,8 +90,6 @@ public class SpeakersFragment extends Fragment {
                         Log.i(TAG, "Value of getValue = " + snapshot.getValue(User.class));
                         Log.i(TAG, "Value of getKey = " + snapshot.getKey());
 
-
-                        Toast.makeText(getActivity(),"Value:", Toast.LENGTH_SHORT).show();
 
                         String userID = snapshot.getKey();
                         speakersListID.add(userID);
@@ -109,9 +100,9 @@ public class SpeakersFragment extends Fragment {
                                     R.drawable.album1,
                                     R.drawable.album2,};
 
-                            User u = new User(user.getName(), user.getUsername(), covers[0]);
-                            speakers.add(u);
-                            Log.i(TAG, "Value of  = " + u.getName() + " ;" + u.getUsername());
+                            User u = new User(user.getName(), covers[0]);
+                            speakers.add(user);
+                            Log.i(TAG, "Value of  = " + u.getName());
 
                         }
                     }
@@ -120,15 +111,11 @@ public class SpeakersFragment extends Fragment {
 
 
                     adapter = new SpeakersAdapter(SpeakersFragment.this, speakers);
-                    recyclerView .setAdapter(adapter);
+                    recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
 
                 }
-
-
-
-
 
 
                 @Override
@@ -137,117 +124,11 @@ public class SpeakersFragment extends Fragment {
                 }
             });
 
-
-            /**       talksRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-
-
-            for (DataSnapshot snapshots : dataSnapshot.getChildren()) {
-            String talkID = snapshots.getValue(Talk.class);
-            talkID.add(talkID);
-
-            Talk latest = talkList.get(talkList.size() - 1);
-            int[] covers = new int[]{
-            R.drawable.album1,
-            R.drawable.album2,};
-
-            Talk t = new Talk(latest.getTitle(), latest.getSpeaker(), covers[0]);
-            talkList.add(t);                 }
-            // A new message has been added
-            // onChildAdded() will be called for each node at the first time
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-            Log.e(TAG, "onChildChanged:" + dataSnapshot.getKey());
-
-            // A message has changed
-            Talk talk = dataSnapshot.getValue(Talk.class);
-            Toast.makeText(getActivity(), "onChildChanged: ", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            Log.e(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-
-            // A message has been removed
-            Talk talk = dataSnapshot.getValue(Talk.class);
-            Toast.makeText(getActivity(), "onChildRemoved: " , Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-            Log.e(TAG, "onChildMoved:" + dataSnapshot.getKey());
-
-            // A message has changed position
-            Talk talk = dataSnapshot.getValue(Talk.class);
-            Toast.makeText(getActivity(), "onChildMoved: ", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            Log.e(TAG, "postMessages:onCancelled", databaseError.toException());
-            Toast.makeText(getActivity(), "Failed to load Message.", Toast.LENGTH_SHORT).show();
-            }
-            });
-
-
-             }**/
-        }
-
-        else {
-            startActivity(new Intent(getActivity(),SplashLoginActivity.class));
+        } else {
+            startActivity(new Intent(getActivity(), SplashLoginActivity.class));
         }
         adapter.notifyDataSetChanged();
 
     }
 
-    private void prepareSpeakers() {
-        int[] covers = new int[]{
-                R.drawable.noimage_photo,
-                R.drawable.noimage_photo,
-                R.drawable.noimage_photo,
-                R.drawable.noimage_photo,
-                R.drawable.noimage_photo,
-                R.drawable.noimage_photo,
-                R.drawable.noimage_photo,
-                R.drawable.noimage_photo,
-                R.drawable.noimage_photo,
-                R.drawable.noimage_photo,
-                R.drawable.noimage_photo};
-
-        Speaker s = new Speaker("Pera Peric", covers[0]);
-        speakers.add(s);
-
-        s = new Speaker("Pera Peric", covers[0]);
-        speakers.add(s);
-
-        s = new Speaker("Pera Peric", covers[0]);
-        speakers.add(s);
-
-        s = new Speaker("Pera Peric", covers[0]);
-        speakers.add(s);
-
-        s = new Speaker("Pera Peric", covers[0]);
-        speakers.add(s);
-
-        s = new Speaker("Pera Peric", covers[0]);
-        speakers.add(s);
-
-        s = new Speaker("Pera Peric", covers[0]);
-        speakers.add(s);
-
-        s = new Speaker("Pera Peric", covers[0]);
-        speakers.add(s);
-
-        s = new Speaker("Pera Peric", covers[0]);
-        speakers.add(s);
-
-        s = new Speaker("Pera Peric", covers[0]);
-        speakers.add(s);
-
-        adapter.notifyDataSetChanged();
-    }
 }
