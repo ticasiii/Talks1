@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,6 +66,13 @@ public class TalkDetailsActivity extends AppCompatActivity {
     private TextInputLayout tvAddress;
     private TextView tvDate;
 
+    private Talk talk;
+    private User currentUser;
+    private RatingBar ratingBar;
+
+    final Map<String,Object> attendanceMap = new HashMap<>();
+    final List<String> attendanceList = new ArrayList<String>();
+
 
 
 
@@ -90,12 +99,12 @@ public class TalkDetailsActivity extends AppCompatActivity {
         fTalkImage = findViewById(R.id.talk_image);
 
         bShowOnMap = (Button)findViewById(R.id.activity_event_details_show_on_map_button) ;
-        //eventId = getIntent().getStringExtra(EVENT_ID_EXTRA);
+        eventId = getIntent().getStringExtra("talkId");
         bRateEvent = findViewById(R.id.activity_event_details_rate_event);
         bRateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rateEvent(10);
+                rateEvent(Math.round(ratingBar.getRating()) * 2);
             }
         });
         bShowOnMap.setOnClickListener(new View.OnClickListener() {
@@ -114,27 +123,10 @@ public class TalkDetailsActivity extends AppCompatActivity {
 
         talkList = new ArrayList<>();
         //adapter = new TalksAdapter(, talkList);
-/**
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 1);
-        recyclerView.setLayoutManager(mLayoutManager);
-        //recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);**/
-
-
 
         prepareData();
 
-        prepareTalks();
-
-        fSpeakerlProfile.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                openSpeaker();
-            }
-        });
-
-
+        //prepareTalks();
     }
 
     private void openSpeaker(){
@@ -159,10 +151,8 @@ public class TalkDetailsActivity extends AppCompatActivity {
                     if (selectedTalk != null) {
 
                         fCategoryProfile.getEditText().setText(selectedTalk.getCategory());
-                        fTitle.setText(selectedTalk.getTitle());
                         fSpeakerlProfile.getEditText().setText(selectedTalk.getSpeaker());
                         fTitleProfile.getEditText().setText(selectedTalk.getTitle());
-                        fDescriptionProfile.getEditText().setText(selectedTalk.getDescription());
                         //password.setText(user_password);
 
                         fRate.setText("rate");
@@ -172,6 +162,43 @@ public class TalkDetailsActivity extends AppCompatActivity {
                         fAttendanceDesc.setText("FANS");
                         Toast.makeText(TalkDetailsActivity.this, "talkID:" + talkID + "ovo drugo:" + selectedTalk.getPicture(),Toast.LENGTH_LONG).show();
 
+                        FirebaseDatabase.getInstance().getReference("users").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for(DataSnapshot s : dataSnapshot.getChildren())
+                                {
+                                    if(s.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                                    {
+                                        currentUser = s.getValue(User.class);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                        showAttendanceListForEvent();
+                        if (selectedTalk.getTitle() != null) {
+                            fTitle.setText(selectedTalk.getTitle());
+
+                        }
+                        else {
+                            fTitle.setText("<Talk has no name>");
+                        }
+
+                        if (selectedTalk.getDescription() != null) {
+                            fDescriptionProfile.getEditText().setText(selectedTalk.getDescription());
+                        }
+                        else {
+                            fDescriptionProfile.getEditText().setText("Talk has no description");
+                        }
+
+                        if (selectedTalk.getAddress() != null) {
+                            tvAddress.getEditText().setText(selectedTalk.getAddress());
+                        }
+
                         tvDate.setText(selectedTalk.getDay() + "." + selectedTalk.getMonth() + "." + selectedTalk.getYear() + " ; " + selectedTalk.getHour() + ":" + selectedTalk.getMinute());
                         boolean passed = checkIfPassed();
                         if(selectedTalk.getPast() != passed) {
@@ -180,11 +207,9 @@ public class TalkDetailsActivity extends AppCompatActivity {
                         }
                         //Check if event can be rated and disable/enable button for it
                         checkIfCanBeRated();
-
-                        if (talkID != null) {
+                        //rateEvent(10);
+                        if (selectedTalk.getPicture() != null) {
                             FirebaseStorage storage = FirebaseStorage.getInstance();
-
-                            //StorageReference ref = storage.getReference().child("eventImages").child(selectedTalk.getPicture());
                             StorageReference ref = storage.getReference().child("events").child(selectedTalk.getPicture());
 
                             GlideApp.with(getApplicationContext()).load(ref).into(fTalkImage);
@@ -199,70 +224,23 @@ public class TalkDetailsActivity extends AppCompatActivity {
                             //ivPicture.setImageDrawable(drawable);
                         }
 
-                        FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                bFollow.setVisibility(View.VISIBLE);
-                                User currentUser = dataSnapshot.getValue(User.class);
-                                if (currentUser != null) {
-                                    if (currentUser.get_interestedTalks() == null || !currentUser.get_interestedTalks().containsKey(eventId)) {
-                                        bFollow.setText("Follow");
-                                        following = false;
-                                    }
-                                    else {
-                                        bFollow.setText("Unfollow");
-                                        following = true;
-                                    }
-                                }
-                            }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                bFollow.setVisibility(View.INVISIBLE);
-                            }
-                        });
 
                     }
-                    else{
-                        startActivity(new Intent(TalkDetailsActivity.this,SplashLoginActivity.class));
+                    else {
+                        fTitleProfile.getEditText().setText("Selected talk doesn't exist anymore");
+                        fDescriptionProfile.getEditText().setText("");
+                        fTalkImage.setImageResource(0);
                     }
 
                     bFollow.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    User currentUser = dataSnapshot.getValue(User.class);
-                                    if (currentUser != null) {
-                                        if (following) {
-                                            //User currentUser = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("_interestedLectures").setValue(lectureId, null);
-                                            Map<String, Object> pom = currentUser.get_interestedTalks();
-                                            pom.remove(eventId);
-                                            FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("_interestedTalks").setValue(pom);
-                                            bFollow.setText("Follow");
-                                            //FirebaseDatabase.getInstance().getReference("events").child(eventId).child("attended") .setValue(currentUser.getId());
-                                            following = false;
-                                        }
-                                        else {
-                                            //FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("_interestedLectures").setValue(lectureId, "true");
-                                            Map<String, Object> pom = currentUser.get_interestedTalks();
-                                            pom.put(eventId, true);
-                                            FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("_interestedTalks").setValue(pom);
-                                            bFollow.setText("Unfollow");
-                                            Map<String, Object> attendanceList = selectedTalk.getAttendance();
-                                            attendanceList.put(currentUser.getId(), currentUser.getName());
-                                            FirebaseDatabase.getInstance().getReference("talks").child(eventId).child("attendence").setValue(attendanceList);
-                                            following = true;
-                                        }
-                                    }
-                                }
+                            attendanceMap.put(currentUser.getId(),currentUser.getName());
+                            //}
+                            FirebaseDatabase.getInstance().getReference("talks").child(eventId).child("attendance").setValue(attendanceMap);
+                            //TODO : Go to previous activity !!!!!!!!!!!!!!
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                    Toast.makeText(TalkDetailsActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
 
                         }
                     });
@@ -270,6 +248,15 @@ public class TalkDetailsActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+
+            bUser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Intent intent = new Intent(EventDetailsActivity.this, UserDetailsActivity.class);
+                    //intent.putExtra(UserDetailsActivity.USER_ID_EXTRA, lecture.get_user());
+                    //startActivity(intent);
                 }
             });
 
@@ -296,63 +283,92 @@ public class TalkDetailsActivity extends AppCompatActivity {
         int day = now.get(Calendar.DAY_OF_MONTH);
         int hour = now.get(Calendar.HOUR_OF_DAY);
         int minutes = now.get(Calendar.MINUTE);
-        return selectedTalk.getYear() < year ||
-                selectedTalk.getMonth() < month ||
-                selectedTalk.getDay() < day ||
-                selectedTalk.getHour() < hour;
+        if(selectedTalk.getYear() >= year &&
+                selectedTalk.getMonth() >= month &&
+                selectedTalk.getDay() >= day &&
+                selectedTalk.getHour() >= hour)
+            return false;
+        return true;
     }
     int pts = 0;
     private void rateEvent(final int rate)
     {
-        FirebaseDatabase.getInstance().getReference("users").child(selectedTalk.getSpeaker()).addValueEventListener(new ValueEventListener() {
+        //Update users that rated event on event object in db
+        FirebaseDatabase.getInstance().getReference("talks").child(eventId).child("user_ratings").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                User currentUser = dataSnapshot.getValue(User.class);
-                if (currentUser != null) {
-                    pts = currentUser.getPoints();
-                    //currentUser.setPoints(currentUser.getPoints() + rate);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final Map<String,Object> userRatings = new HashMap<>();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    userRatings.put(snapshot.getKey(),snapshot.getValue());
+                    if(currentUser.getId().equals(snapshot.getKey()))
+                    {
+                        Toast.makeText(getBaseContext(),"You have already rated this talk", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                 }
+
+                userRatings.put(currentUser.getId(), rate);
+                FirebaseDatabase.getInstance().getReference("talks").child(eventId).child("user_ratings").setValue(userRatings);
+                //Update Head speaker's points
+                FirebaseDatabase.getInstance().getReference("users").child(selectedTalk.getSpeaker()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        User currentUser = dataSnapshot.getValue(User.class);
+                        if (currentUser != null) {
+                            pts = currentUser.getPoints();
+                            currentUser.setPoints(currentUser.getPoints() + rate);
+                            FirebaseDatabase.getInstance().getReference("users").child(selectedTalk.getSpeaker()).child("points").setValue(pts + rate);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+                //Update current user's points
+                FirebaseDatabase.getInstance().getReference("users").child(currentUser.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User currentUser = dataSnapshot.getValue(User.class);
+                        if (currentUser != null) {
+                            pts = currentUser.getPoints();
+                            currentUser.setPoints(currentUser.getPoints() + 5);
+                            FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("points").setValue(pts + 5);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                //TODO : Go to previous activity !!!!!!!!!!!!!!
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-        FirebaseDatabase.getInstance().getReference("users").child(selectedTalk.getSpeaker()).child("points").setValue(pts + rate);
-        //pts = 0;
-        FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                User currentUser = dataSnapshot.getValue(User.class);
-                if (currentUser != null) {
-                    pts = currentUser.getPoints();
-                    //currentUser.setPoints(currentUser.getPoints() + 5);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("points").setValue(pts + 5);
-
-        fRateDesc.setText("RATED");
     }
 
     private void showAttendanceListForEvent()
     {
-        final List<String> attendanceList = new ArrayList<String>();
-        FirebaseDatabase.getInstance().getReference("talks").child(eventId).child("attendence").addValueEventListener(new ValueEventListener() {
+
+        FirebaseDatabase.getInstance().getReference("talks").child(eventId).child("attendance").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     attendanceList.add(snapshot.getValue().toString());
-                    if(snapshot.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                    attendanceMap.put(snapshot.getKey(),snapshot.getValue());
+                    if(snapshot.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                         hasUserAttended = true;
+                        disableButton(bFollow);
+                    }
                 }
                 checkIfCanBeRated();
                 final ListView listview = (ListView) findViewById(R.id.list_view);
@@ -367,7 +383,6 @@ public class TalkDetailsActivity extends AppCompatActivity {
 
             }
         });
-
     }
     private boolean checkIfCanBeRated()
     {
@@ -391,66 +406,7 @@ public class TalkDetailsActivity extends AppCompatActivity {
         {
             b.setEnabled(true);
             b.setAlpha(1);
-            b.setTextColor(Color.WHITE);
+            b.setTextColor(Color.BLACK);
         }
-    }
-
-
-
-    private void prepareTalks() {
-        int[] covers = new int[]{
-                R.drawable.album1,
-                R.drawable.album2,
-                R.drawable.album3,
-                R.drawable.album4,
-                R.drawable.album5,
-                R.drawable.album6,
-                R.drawable.album7,
-                R.drawable.album8,
-                R.drawable.album9,
-                R.drawable.album10,
-                R.drawable.album11};
-
-        Talk t = new Talk("Title", "Spekear", covers[0]);
-        talkList.add(t);
-
-        t = new Talk("Title", "Spekear", covers[1]);
-        talkList.add(t);
-
-        t = new Talk("Title", "Spekear", covers[2]);
-        talkList.add(t);
-
-        t = new Talk("Title", "Spekear", covers[3]);
-        talkList.add(t);
-
-        t = new Talk("Title", "Spekear", covers[4]);
-        talkList.add(t);
-
-        t = new Talk("Title", "Spekear", covers[5]);
-        talkList.add(t);
-
-        t = new Talk("Title", "Spekear", covers[6]);
-        talkList.add(t);
-
-        t = new Talk("Title", "Spekear", covers[7]);
-        talkList.add(t);
-
-        t = new Talk("Title", "Spekear", covers[8]);
-        talkList.add(t);
-
-        t = new Talk("Title", "Spekear", covers[9]);
-        talkList.add(t);
-
-//        adapter.notifyDataSetChanged();
-    }
-
-
-
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 }
