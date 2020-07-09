@@ -52,7 +52,7 @@ public class SpeakersAdapter extends RecyclerView.Adapter<SpeakersAdapter.MyView
     @Override
     public SpeakersAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.talk_card, parent, false);
+                .inflate(R.layout.speaker_card, parent, false);
         final SpeakersAdapter.MyViewHolder myViewHolder = new SpeakersAdapter.MyViewHolder(itemView);
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,9 +71,17 @@ public class SpeakersAdapter extends RecyclerView.Adapter<SpeakersAdapter.MyView
         User user = speakers.get(position);
         holder.name.setText(user.getName());
 
-        // loading album cover using Glide library
-        StorageReference ref = FirebaseStorage.getInstance().getReference().child("images").child(user.getPicture());
-        GlideApp.with(mContext).load(ref).into(holder.cover);
+
+        if (user.getPicture() != null) {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference ref = storage.getReference().child("images").child(user.getPicture());
+
+            GlideApp.with(mContext).load(ref).into(holder.cover);
+        }
+        else {
+            holder.cover.setImageResource(0);
+        }
+
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override

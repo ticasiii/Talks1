@@ -79,15 +79,14 @@ public class MyProfileFragment extends Fragment {
         talkList = new ArrayList<>();
         adapter = new TalksAdapter(this, talkList);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 1);
+/*        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         //recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
+                prepareTalks();*/
         prepareData();
 
-        prepareTalks();
 
 
         return view;
@@ -128,15 +127,9 @@ public class MyProfileFragment extends Fragment {
                             StorageReference ref = storage.getReference().child("images").child(currentUser.getPicture());
 
                             GlideApp.with(getActivity()).load(ref).into(fPorfileImage);
-
-                            //Picasso.with(LectureDetailsActivity.this).load(lecture.getPicture()).into(ivPicture);
-
                         }
                         else {
                             fPorfileImage.setImageResource(0);
-                            //TextDrawable drawable = TextDrawable.builder()
-                            //        .buildRoundRect(tvName.getText().toString().substring(0, 1), Color.DKGRAY, 16);
-                            //ivPicture.setImageDrawable(drawable);
                         }
 
                     }

@@ -78,7 +78,7 @@ public class SpeakersFragment extends Fragment {
 
             String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            DatabaseReference talksRef = FirebaseDatabase.getInstance().getReference("talks");
+            DatabaseReference talksRef = FirebaseDatabase.getInstance().getReference("users");
 
 
             talksRef.addValueEventListener(new ValueEventListener() {
@@ -96,13 +96,8 @@ public class SpeakersFragment extends Fragment {
                         User user = snapshot.getValue(User.class);
                         if (user != null) {
                             //talkList.add(talk);
-                            int[] covers = new int[]{
-                                    R.drawable.album1,
-                                    R.drawable.album2,};
-
-                            User u = new User(user.getName(), covers[0]);
                             speakers.add(user);
-                            Log.i(TAG, "Value of  = " + u.getName());
+                            Log.i(TAG, "Value of  = " + user.getName());
 
                         }
                     }
