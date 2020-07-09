@@ -260,6 +260,7 @@ public class TalkDetailsActivity extends AppCompatActivity {
                 }
             });
 
+
         }
         else {
             startActivity(new Intent(TalkDetailsActivity.this,SplashLoginActivity.class));

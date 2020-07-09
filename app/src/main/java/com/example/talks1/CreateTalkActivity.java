@@ -84,7 +84,7 @@ public class CreateTalkActivity extends AppCompatActivity {
         etName = findViewById(R.id.activity_create_title);
         etDescription = findViewById(R.id.activity_create_talk_description);
         etCategory = findViewById(R.id.activity_create_talk_category);
-        //etHeadSpeaker = (EditText)findViewById(R.id.activity_create_lecture_headspeaker);
+        //etSpeaker = (EditText)findViewById(R.id.activity_create_lecture_headspeaker);
 
         bPicture = findViewById(R.id.activity_create_lecture_picture_button);
         bCreate = findViewById(R.id.activity_create_talk_create_button);
@@ -145,10 +145,10 @@ public class CreateTalkActivity extends AppCompatActivity {
                                 });
 
 
-                                Intent intent = new Intent(CreateTalkActivity.this, MainActivity.class);
+                                Intent intent = new Intent(CreateTalkActivity.this, SplashActivity.class);
                                 intent.putExtra("talkID", talkID);
 
-                                Toast.makeText(CreateTalkActivity.this, "Event successfully created" + talkID, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CreateTalkActivity.this, "Talk successfully created" + talkID, Toast.LENGTH_SHORT).show();
                                 startActivity(intent);
                             }
                             else {
@@ -158,7 +158,7 @@ public class CreateTalkActivity extends AppCompatActivity {
                     });
                 }
                 else {
-                    Toast.makeText(CreateTalkActivity.this, "Name your event.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateTalkActivity.this, "Name your talk.", Toast.LENGTH_SHORT).show();
                 }
                 //openTalk();
 
