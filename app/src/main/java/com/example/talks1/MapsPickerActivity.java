@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MapsPickerActivity extends FragmentActivity implements OnMapReadyCallback {
+
     public static final String EVENT_ARRAY_EXTRA = "eventsarray";
 
     private GoogleMap mMap;
@@ -133,29 +134,14 @@ public class MapsPickerActivity extends FragmentActivity implements OnMapReadyCa
         }
 
         Context mContext = this.getApplicationContext();
-        /*
-        // Initialize place API
-        if (!Places.isInitialized()) {
-            Places.initialize(mContext
-                    , mContext.getString(R.string.google_maps_key));
-        }
-        PlacesClient placesClient = Places.createClient(mContext);
-        // Create a new token for the autocomplete session. Pass this to FindAutocompletePredictionsRequest,
-        // and once again when the user makes a selection (for example when calling fetchPlace()).
-        AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
-        // Specify the fields to return.
-        List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
-        AutocompleteSupportFragment  autocompleteFragment = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-        */
+
         /**
          * Initialize Places. For simplicity, the API key is hard-coded. In a production
          * environment we recommend using a secure mechanism to manage API keys.
          */
-               if (!Places.isInitialized()) {
-                 Places.initialize(getApplicationContext(), mContext.getString(R.string.google_maps_key));
-              }
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), mContext.getString(R.string.google_maps_key));
+        }
 
 // Initialize the AutocompleteSupportFragment.
         /*AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
@@ -245,8 +231,8 @@ public class MapsPickerActivity extends FragmentActivity implements OnMapReadyCa
                 MarkerOptions marker = new MarkerOptions().position(new LatLng(userLocation.latitude,userLocation.longitude)).title("Me");
                 LatLng latLng = new LatLng(userLocation.latitude,userLocation.longitude);
                 CircleOptions circle = new CircleOptions().center(latLng).radius(200.0).fillColor(Color.RED);
-                mMap.addCircle(circle);
-                //mMap.addMarker(marker);
+                //mMap.addCircle(circle);
+                mMap.addMarker(marker);
             }
 
             @Override

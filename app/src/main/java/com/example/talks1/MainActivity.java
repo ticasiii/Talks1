@@ -65,15 +65,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId()) {
             case R.id.action_search_item:
                 Toast.makeText(this, "You clicked search", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, TalkDetailsActivity.class);
-                intent.putExtra("talkID", talkID);
-                startActivity(intent);
+
+                    //startActivity(new Intent(getApplicationContext(),SearchActivity.class));
+
+
 
                 break;
 
             case R.id.action_map_item:
                 Toast.makeText(this, "You clicked map", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), CreateTalkActivity.class));
+                startActivity(new Intent(getApplicationContext(),MapsPickerActivity.class));
+
                 break;
 
             case R.id.action_settings_item:
@@ -85,15 +87,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
 
             case R.id.action_about_item:
-                Toast.makeText(this, "You clicked about", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "You clicked add new", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), CreateTalkActivity.class));
                 break;
 
-            case R.id.action_feedback_item:
-                Toast.makeText(this, "You clicked feedback", Toast.LENGTH_SHORT).show();
-                break;
 
             case R.id.action_login_item:
-                Toast.makeText(this, "You clicked Log In", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), LogInActivity.class));
                 break;
 
@@ -102,27 +101,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
 
-    /*   public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-           Fragment fragment =  new TalksFragment();
-           loadFragment(fragment);
-           switch (item.getItemId()) {
-               case R.id.navigation_talks:
-                   fragment = new TalksFragment();
-                   break;
-
-               case R.id.navigation_speakers:
-                   fragment = new SpeakersFragment();
-                   break;
-
-               case R.id.navigation_my_profile:
-                   fragment = new MyProfileFragment();
-                   break;
-
-           }
-
-           return loadFragment(fragment);
-       }
-   */
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == R.id.navigation_my_profile) {

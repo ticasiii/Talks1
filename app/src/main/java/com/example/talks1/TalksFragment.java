@@ -123,7 +123,7 @@ public class TalksFragment extends Fragment {
 
 
 
-         talksRef.addValueEventListener(new ValueEventListener() {
+         talksRef.orderByChild("talks/height").limitToFirst(10).addValueEventListener(new ValueEventListener() {
              @Override
              public void onDataChange(DataSnapshot dataSnapshot) {
                  talkList = new ArrayList<Talk>();

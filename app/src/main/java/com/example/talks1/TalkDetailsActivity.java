@@ -43,7 +43,7 @@ import java.util.Map;
 
 public class TalkDetailsActivity extends AppCompatActivity {
 
-    public static final String EVENT_ID_EXTRA = "eventId";
+    public static final String EVENT_ID_EXTRA = "talkID";
     private String eventId = "-MBVaw670SaRGx3-xmxm";
 
 
@@ -166,6 +166,7 @@ public class TalkDetailsActivity extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 for(DataSnapshot s : dataSnapshot.getChildren())
                                 {
+                                    //userMaps.add(s.getValue(User.class));
                                     if(s.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
                                     {
                                         currentUser = s.getValue(User.class);

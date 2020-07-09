@@ -56,22 +56,22 @@ public class MyListActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search_item) {
-            Toast.makeText(this, "Search", Toast.LENGTH_SHORT ).show();
+            //startActivity(new Intent(getApplicationContext(),SearchActivity.class));
         }
         if (id == R.id.action_map_item) {
-            Toast.makeText(this, "Show MAP", Toast.LENGTH_SHORT ).show();
+            startActivity(new Intent(getApplicationContext(),MapsPickerActivity.class));
         }
         if (id == R.id.action_settings_item) {
-            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT ).show();
+            startActivity(new Intent(getApplicationContext(),MyListActivity.class));
+            //pali gasi servis
+
         }
         if (id == R.id.action_about_item) {
-            Toast.makeText(this, "About", Toast.LENGTH_SHORT ).show();
+            startActivity(new Intent(getApplicationContext(),CreateTalkActivity.class));
         }
-        if (id == R.id.action_feedback_item) {
-            Toast.makeText(this, "Feedback", Toast.LENGTH_SHORT ).show();
-        }
+
         if (id == R.id.action_login_item) {
-            Toast.makeText(this, "Log in", Toast.LENGTH_SHORT ).show();
+            //logout sa firebase
             startActivity(new Intent(getApplicationContext(),LogInActivity.class));
         }
 
