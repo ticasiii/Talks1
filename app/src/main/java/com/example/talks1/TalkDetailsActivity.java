@@ -82,7 +82,7 @@ public class TalkDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_talk_details);
 
         Intent intent = getIntent();
-        this.talkID = intent.getStringExtra("talkId");
+        this.talkID = intent.getStringExtra("talkID");
 
 
         fTitle = findViewById(R.id.title_field);
@@ -160,7 +160,6 @@ public class TalkDetailsActivity extends AppCompatActivity {
 
                         fAttendanceLabel.setText("num funs");
                         fAttendanceDesc.setText("FANS");
-                        Toast.makeText(TalkDetailsActivity.this, "talkID:" + talkID + "ovo drugo:" + selectedTalk.getPicture(),Toast.LENGTH_LONG).show();
 
                         FirebaseDatabase.getInstance().getReference("users").addValueEventListener(new ValueEventListener() {
                             @Override
@@ -185,7 +184,7 @@ public class TalkDetailsActivity extends AppCompatActivity {
 
                         }
                         else {
-                            fTitle.setText("<Talk has no name>");
+                            fTitle.setText("Talk has no name>");
                         }
 
                         if (selectedTalk.getDescription() != null) {
@@ -240,6 +239,9 @@ public class TalkDetailsActivity extends AppCompatActivity {
                             //}
                             FirebaseDatabase.getInstance().getReference("talks").child(eventId).child("attendance").setValue(attendanceMap);
                             //TODO : Go to previous activity !!!!!!!!!!!!!!
+                            Intent intent = new Intent(TalkDetailsActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
 
 
                         }
@@ -254,9 +256,9 @@ public class TalkDetailsActivity extends AppCompatActivity {
             bUser.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Intent intent = new Intent(EventDetailsActivity.this, UserDetailsActivity.class);
-                    //intent.putExtra(UserDetailsActivity.USER_ID_EXTRA, lecture.get_user());
-                    //startActivity(intent);
+                    Intent intent = new Intent(TalkDetailsActivity.this, SpeakerDetailsActivity.class);
+                    intent.putExtra("userID", selectedTalk.getSpeaker());
+                    startActivity(intent);
                 }
             });
 

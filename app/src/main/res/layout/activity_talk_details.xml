@@ -52,6 +52,7 @@
 
             android:layout_toRightOf="@+id/date_field"
             android:background="@color/quantum_white_100"
+            android:textColor="@color/colorPrimaryDark"
             android:text="ATTEND"></Button>
 
 

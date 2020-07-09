@@ -42,6 +42,21 @@ android:orientation = "vertical">
         android:text="username"
         android:textSize="14sp" />
 
+    <Button
+        android:id="@+id/activity_event_details_follow_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+
+        android:layout_marginLeft="124dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_toRightOf="@+id/date_field"
+        android:background="@color/quantum_white_100"
+        android:text="FOLLOW"
+        android:textColor="@color/colorPrimaryDark"></Button>
+
 </RelativeLayout>
 <LinearLayout
     android:layout_height="wrap_content"

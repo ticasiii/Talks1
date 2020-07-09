@@ -13,6 +13,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,10 +43,20 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
     private TextView fFullname, fUsername, fRate, fRateDesc, fTalkLabel, fTalkLabelDesc;
     private ImageView fPorfileImage;
 
+    private Talk selectedTalk;
+    boolean hasUserAttended = false;
+    private Button bShowOnMap;
+    private Button bFollow;
+    private Boolean following;
+    private String userID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speaker_details);
+
+        Intent intent = getIntent();
+        this.userID = intent.getStringExtra("userID");
 
         recyclerView = findViewById(R.id.recycler_view);
         fFullname = findViewById(R.id.fullname_field);
@@ -61,6 +72,8 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
         fEmailProfile = findViewById(R.id.email_profile);
         fDescriptionProfile = findViewById(R.id.description_profile);
         fPorfileImage = findViewById(R.id.profile_image);
+
+
 
 
 
@@ -86,7 +99,9 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
 
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
 
-            String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+           // String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            String currentUserID = userID;
 
             DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUserID);
 

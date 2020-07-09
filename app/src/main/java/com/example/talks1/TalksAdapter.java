@@ -72,7 +72,7 @@ public class TalksAdapter extends RecyclerView.Adapter<TalksAdapter.MyViewHolder
             public void onClick(View v) {
                 String eventId = talkList.get(myViewHolder.getAdapterPosition()).getId();
                 Intent intent = new Intent(mContext.getContext(), TalkDetailsActivity.class);
-                intent.putExtra("talkId", eventId);
+                intent.putExtra("talkID", eventId);
                 mContext.getContext().startActivity(intent);
             }
         });
