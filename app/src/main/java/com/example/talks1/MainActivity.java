@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;**/
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -19,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import com.example.talks1.services.LocationService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -48,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         BottomNavigationView navView = findViewById(R.id.navigation);
         navView.setOnNavigationItemSelectedListener(this);
-        startLocationService();
 
     }
 
@@ -80,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             case R.id.action_settings_item:
                 Toast.makeText(this, "You clicked settings", Toast.LENGTH_SHORT).show();
-                Intent intent1 = new Intent(this, MyListActivity.class);
+                Intent intent1 = new Intent(this, SettingsActivity.class);
                 intent1.putExtra("talkID", talkID);
                 startActivity(intent1);
 
@@ -130,18 +127,5 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
 
-    private void startLocationService() {
 
-        Intent locationServiceIntent = new Intent(MainActivity.this, LocationService.class);
-        //Intent i = LocationService.ma
-        startService(locationServiceIntent);
-    }
-
-    private void stopLocationService() {
-
-        Intent locationServiceIntent = new Intent(MainActivity.this, LocationService.class);
-        //Intent i = LocationService.ma
-        stopService(locationServiceIntent);
-
-    }
 }

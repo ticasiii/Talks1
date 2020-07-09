@@ -9,37 +9,80 @@ import android.support.v7.widget.Toolbar;**/
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.talks1.services.LocationService;
 
-public class MyListActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
+
+    private Switch mSwitch;
+    private TextView mTW;
+    private Boolean flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_list);
+        setContentView(R.layout.activity_settings);
+
+        mSwitch = findViewById(R.id.switch1);
+        mTW = findViewById(R.id.textView3);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     //    getSupportActionBar().setIcon(R.drawable.baseline_info_white_24);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mSwitch.setChecked(false);
+        flag = false;
+        mTW.setText("Turn ON");
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+
+                if(!flag){
+                    stopLocationService();
+                    mTW.setText("Turn ON");
+
+                    flag = true;
+
+                }
+                else{
+                    startLocationService();
+                    mTW.setText("Turn OFF");
+
+                    mSwitch.setChecked(true);
+                    flag = false;
+
+                }
+
             }
         });
+
+
+
+
     }
 
+
+    private void startLocationService() {
+
+        Intent locationServiceIntent = new Intent(SettingsActivity.this, LocationService.class);
+        //Intent i = LocationService.ma
+        startService(locationServiceIntent);
+    }
+
+    private void stopLocationService() {
+
+        Intent locationServiceIntent = new Intent(SettingsActivity.this, LocationService.class);
+        //Intent i = LocationService.ma
+        stopService(locationServiceIntent);
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -62,7 +105,7 @@ public class MyListActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),MapsPickerActivity.class));
         }
         if (id == R.id.action_settings_item) {
-            startActivity(new Intent(getApplicationContext(),MyListActivity.class));
+            startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
             //pali gasi servis
 
         }
